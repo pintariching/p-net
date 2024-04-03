@@ -42,32 +42,32 @@ extern "C" {
 /** HW Offload configuration. */
 typedef enum
 {
-   MODE_HW_OFFLOAD_NONE = 0,
-   MODE_HW_OFFLOAD_CPU,
-   MODE_HW_OFFLOAD_FULL,
+    MODE_HW_OFFLOAD_NONE = 0,
+    MODE_HW_OFFLOAD_CPU,
+    MODE_HW_OFFLOAD_FULL,
 } app_mode_t;
 
 /** Command line arguments for sample application */
 typedef struct app_args
 {
-   char path_button1[PNET_MAX_FILE_FULLPATH_SIZE]; /** Terminated string */
-   char path_button2[PNET_MAX_FILE_FULLPATH_SIZE]; /** Terminated string */
-   char path_storage_directory[PNET_MAX_DIRECTORYPATH_SIZE]; /** Terminated */
-   char station_name[PNET_STATION_NAME_MAX_SIZE]; /** Terminated string */
-   char eth_interfaces
-      [PNET_INTERFACE_NAME_MAX_SIZE * (PNET_MAX_PHYSICAL_PORTS + 1) +
-       PNET_MAX_PHYSICAL_PORTS]; /** Terminated string */
-   int verbosity;
-   int show;
-   bool factory_reset;
-   bool remove_files;
-   app_mode_t mode;
+    char path_button1[PNET_MAX_FILE_FULLPATH_SIZE]; /** Terminated string */
+    char path_button2[PNET_MAX_FILE_FULLPATH_SIZE]; /** Terminated string */
+    char path_storage_directory[PNET_MAX_DIRECTORYPATH_SIZE]; /** Terminated */
+    char station_name[PNET_STATION_NAME_MAX_SIZE]; /** Terminated string */
+    char eth_interfaces
+        [PNET_INTERFACE_NAME_MAX_SIZE * (PNET_MAX_PHYSICAL_PORTS + 1) +
+         PNET_MAX_PHYSICAL_PORTS]; /** Terminated string */
+    int verbosity;
+    int show;
+    bool factory_reset;
+    bool remove_files;
+    app_mode_t mode;
 } app_args_t;
 
 typedef enum
 {
-   RUN_IN_SEPARATE_THREAD,
-   RUN_IN_MAIN_THREAD
+    RUN_IN_SEPARATE_THREAD,
+    RUN_IN_MAIN_THREAD
 } app_run_in_separate_task_t;
 
 typedef struct app_data_t app_data_t;

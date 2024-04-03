@@ -58,12 +58,12 @@ extern "C" {
  * @return Reference to PNIO data, NULL on error
  */
 uint8_t * app_data_get_input_data (
-   uint16_t slot_nbr,
-   uint16_t subslot_nbr,
-   uint32_t submodule_id,
-   bool button_state,
-   uint16_t * size,
-   uint8_t * iops);
+    uint16_t slot_nbr,
+    uint16_t subslot_nbr,
+    uint32_t submodule_id,
+    // bool button_state,
+    uint16_t * size,
+    uint8_t * iops);
 
 /**
  * Set application specific PNIO output data (received from PLC)
@@ -78,11 +78,11 @@ uint8_t * app_data_get_input_data (
  * @return 0 on success, -1 on error
  */
 int app_data_set_output_data (
-   uint16_t slot_nbr,
-   uint16_t subslot_nbr,
-   uint32_t submodule_id,
-   uint8_t * data,
-   uint16_t size);
+    uint16_t slot_nbr,
+    uint16_t subslot_nbr,
+    uint32_t submodule_id,
+    uint8_t * data,
+    uint16_t size);
 
 /**
  * Set default outputs for all subslots.
@@ -106,12 +106,12 @@ int app_data_set_default_outputs (void);
  * @return 0 on success, -1 on error
  */
 int app_data_write_parameter (
-   uint16_t slot_nbr,
-   uint16_t subslot_nbr,
-   uint32_t submodule_id,
-   uint32_t index,
-   const uint8_t * data,
-   uint16_t write_length);
+    uint16_t slot_nbr,
+    uint16_t subslot_nbr,
+    uint32_t submodule_id,
+    uint32_t index,
+    const uint8_t * data,
+    uint16_t write_length);
 
 /**
  * Read parameter index from a subslot
@@ -126,12 +126,12 @@ int app_data_write_parameter (
  * @return 0 on success, -1 on error
  */
 int app_data_read_parameter (
-   uint16_t slot_nbr,
-   uint16_t subslot_nbr,
-   uint32_t submodule_id,
-   uint32_t index,
-   uint8_t ** data,
-   uint16_t * length);
+    uint16_t slot_nbr,
+    uint16_t subslot_nbr,
+    uint32_t submodule_id,
+    uint32_t index,
+    uint8_t ** data,
+    uint16_t * length);
 
 #ifdef __cplusplus
 }

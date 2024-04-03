@@ -26,9 +26,9 @@ BraceWrapping:
   SplitEmptyNamespace: false
   AfterExternBlock: false
 ColumnLimit: 80
-ContinuationIndentWidth: 3
+ContinuationIndentWidth: 4
 IndentCaseLabels: false
-IndentWidth: 3
+IndentWidth: 4
 PenaltyBreakAssignment: 10
 PenaltyBreakBeforeFirstCallParameter: 30
 PenaltyBreakComment: 10
