@@ -44,14 +44,14 @@ static u_int8_t input[8] = {0};
  *
  * @param led_state        In:    New LED state
  */
-static void app_handle_data_led_state (bool led_state) {
-    static bool previous_led_state = false;
+// static void app_handle_data_led_state (bool led_state) {
+//     static bool previous_led_state = false;
 
-    if (led_state != previous_led_state) {
-        app_set_led (APP_DATA_LED_ID, led_state);
-    }
-    previous_led_state = led_state;
-}
+//     if (led_state != previous_led_state) {
+//         app_set_led (APP_DATA_LED_ID, led_state);
+//     }
+//     previous_led_state = led_state;
+// }
 
 uint8_t * app_data_get_input_data (
     uint16_t slot_nbr,
@@ -59,10 +59,10 @@ uint8_t * app_data_get_input_data (
     uint32_t submodule_id,
     uint16_t * size,
     uint8_t * iops) {
-    float inputfloat;
-    float outputfloat;
-    uint32_t hostorder_inputfloat_bytes;
-    uint32_t hostorder_outputfloat_bytes;
+    // float inputfloat;
+    // float outputfloat;
+    // uint32_t hostorder_inputfloat_bytes;
+    // uint32_t hostorder_outputfloat_bytes;
 
     if (size == NULL || iops == NULL) {
         return NULL;
@@ -97,7 +97,7 @@ int app_data_set_output_data (
     uint32_t submodule_id,
     uint8_t * data,
     uint16_t size) {
-    bool led_state;
+    // bool led_state;
 
     if (data == NULL) {
         return -1;

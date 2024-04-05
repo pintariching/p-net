@@ -161,7 +161,7 @@ static const app_gsdml_submodule_t * app_gsdml_submodules[] = {
  * submodule list its supported parameters using
  * their indexes.
  */
-static app_gsdml_param_t app_gsdml_parameters[] = {};
+// static app_gsdml_param_t app_gsdml_parameters[] = {};
 
 const app_gsdml_module_t * app_gsdml_get_module_cfg (uint32_t id) {
     uint32_t i;
@@ -186,28 +186,28 @@ const app_gsdml_submodule_t * app_gsdml_get_submodule_cfg (uint32_t id) {
 const app_gsdml_param_t * app_gsdml_get_parameter_cfg (
     uint32_t submodule_id,
     uint32_t index) {
-    uint16_t i;
-    uint16_t j;
+    // uint16_t i;
+    // uint16_t j;
 
-    const app_gsdml_submodule_t * submodule_cfg =
-        app_gsdml_get_submodule_cfg (submodule_id);
+    // const app_gsdml_submodule_t * submodule_cfg =
+    //     app_gsdml_get_submodule_cfg (submodule_id);
 
-    if (submodule_cfg == NULL) {
-        /* Unsupported submodule id */
-        return NULL;
-    }
+    // if (submodule_cfg == NULL) {
+    //     /* Unsupported submodule id */
+    //     return NULL;
+    // }
 
-    /* Search for parameter index in submodule configuration */
-    for (i = 0; submodule_cfg->parameters[i] != 0; i++) {
-        if (submodule_cfg->parameters[i] == index) {
-            /* Find parameter configuration */
-            for (j = 0; j < NELEMENTS (app_gsdml_parameters); j++) {
-                if (app_gsdml_parameters[j].index == index) {
-                    return &app_gsdml_parameters[j];
-                }
-            }
-        }
-    }
+    // /* Search for parameter index in submodule configuration */
+    // for (i = 0; submodule_cfg->parameters[i] != 0; i++) {
+    //     if (submodule_cfg->parameters[i] == index) {
+    //         /* Find parameter configuration */
+    //         for (j = 0; j < NELEMENTS (app_gsdml_parameters); j++) {
+    //             if (app_gsdml_parameters[j].index == index) {
+    //                 return &app_gsdml_parameters[j];
+    //             }
+    //         }
+    //     }
+    // }
 
     return NULL;
 }
