@@ -74,7 +74,7 @@ extern "C" {
 
 /* GSDML tag: Writeable_IM_Records */
 #define APP_GSDML_IM_SUPPORTED                                                 \
-   (PNET_SUPPORTED_IM1 | PNET_SUPPORTED_IM2 | PNET_SUPPORTED_IM3)
+    (PNET_SUPPORTED_IM1 | PNET_SUPPORTED_IM2 | PNET_SUPPORTED_IM3)
 
 /* GSDML tag: OrderNumber */
 #define APP_GSDML_ORDER_ID "12345 Abcdefghijk"
@@ -94,10 +94,6 @@ extern "C" {
 #define APP_GSDML_LOGBOOK_ERROR_CODE_2 0x00       /* Manufacturer specific */
 #define APP_GSDML_LOGBOOK_ENTRY_DETAIL 0xFEE1DEAD /* Manufacturer specific */
 
-#define APP_GSDML_PARAMETER_1_IDX    123
-#define APP_GSDML_PARAMETER_2_IDX    124
-#define APP_GSDML_PARAMETER_ECHO_IDX 125
-
 /* Use same size for all parameters in example */
 #define APP_GSDML_PARAMETER_LENGTH 4
 
@@ -105,51 +101,47 @@ extern "C" {
 
 typedef struct app_gsdml_module
 {
-   uint32_t id;
+    uint32_t id;
 
-   /** Module name */
-   const char * name;
+    /** Module name */
+    const char * name;
 
-   /** Submodule IDs. Variable length, ends with 0. */
-   uint32_t submodules[];
+    /** Submodule IDs. Variable length, ends with 0. */
+    uint32_t submodules[];
 } app_gsdml_module_t;
 
 typedef struct app_gsdml_submodule
 {
-   uint32_t id;
+    uint32_t id;
 
-   /** Submodule name */
-   const char * name;
+    /** Submodule name */
+    const char * name;
 
-   uint32_t api;
-   pnet_submodule_dir_t data_dir;
-   uint16_t insize;
-   uint16_t outsize;
+    uint32_t api;
+    pnet_submodule_dir_t data_dir;
+    uint16_t insize;
+    uint16_t outsize;
 
-   /** Parameter indexes. See app_gsdml_parameters.
-    * Variable length, ends with 0. */
-   uint16_t parameters[];
+    /** Parameter indexes. See app_gsdml_parameters.
+     * Variable length, ends with 0. */
+    uint16_t parameters[];
 } app_gsdml_submodule_t;
 
 typedef struct
 {
-   uint32_t index;
-   const char * name;
-   uint16_t length;
+    uint32_t index;
+    const char * name;
+    uint16_t length;
 } app_gsdml_param_t;
 
-#define APP_GSDML_MOD_ID_8_0_DIGITAL_IN     0x00000030
-#define APP_GSDML_MOD_ID_0_8_DIGITAL_OUT    0x00000031
-#define APP_GSDML_MOD_ID_8_8_DIGITAL_IN_OUT 0x00000032
-#define APP_GSDML_MOD_ID_ECHO               0x00000040
-#define APP_GSDML_SUBMOD_ID_DIGITAL_IN      0x00000130
-#define APP_GSDML_SUBMOD_ID_DIGITAL_OUT     0x00000131
-#define APP_GSDML_SUBMOD_ID_DIGITAL_IN_OUT  0x00000132
-#define APP_GSDML_SUBMOD_ID_ECHO            0x00000140
+#define APP_GSDML_MOD_ID_32_0_DIGITAL_OUT_1 0x00000001
+#define APP_GSDML_MOD_ID_32_0_DIGITAL_OUT_2 0x00000002
+#define APP_GSDML_MOD_ID_0_8_DIGITAL_IN     0x00000003
+#define APP_GSDML_SUBMOD_ID_DIGITAL_OUT_1   0x00000130
+#define APP_GSDML_SUBMOD_ID_DIGITAL_OUT_2   0x00000131
+#define APP_GSDML_SUBMOD_ID_DIGITAL_IN      0x00000132
 #define APP_GSDML_INPUT_DATA_DIGITAL_SIZE   1 /* bytes */
-#define APP_GSDML_OUTPUT_DATA_DIGITAL_SIZE  1 /* bytes */
-#define APP_GSDML_INPUT_DATA_ECHO_SIZE      8 /* bytes */
-#define APP_GSDML_OUTPUT_DATA_ECHO_SIZE     APP_GSDML_INPUT_DATA_ECHO_SIZE
+#define APP_GSDML_OUTPUT_DATA_DIGITAL_SIZE  4 /* bytes */
 #define APP_GSDML_ALARM_PAYLOAD_SIZE        1 /* bytes */
 
 /**
@@ -165,7 +157,7 @@ const app_gsdml_module_t * app_gsdml_get_module_cfg (uint32_t module_id);
  * @return Submodule configuration, NULL if not found
  */
 const app_gsdml_submodule_t * app_gsdml_get_submodule_cfg (
-   uint32_t submodule_id);
+    uint32_t submodule_id);
 
 /**
  * Get parameter configuration from parameter index
@@ -174,8 +166,8 @@ const app_gsdml_submodule_t * app_gsdml_get_submodule_cfg (
  * @return Parameter configuration, NULL if not found
  */
 const app_gsdml_param_t * app_gsdml_get_parameter_cfg (
-   uint32_t submodule_id,
-   uint32_t index);
+    uint32_t submodule_id,
+    uint32_t index);
 
 #ifdef __cplusplus
 }
