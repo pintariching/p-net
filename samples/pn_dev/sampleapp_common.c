@@ -333,61 +333,60 @@ static int app_write_ind (
     uint16_t write_length,
     const uint8_t * p_write_data,
     pnet_result_t * p_result) {
-    int result = 0;
-    app_data_t * app = (app_data_t *)arg;
-    app_subslot_t * subslot;
-    APP_LOG_DEBUG (
-        "PLC write record indication.\n"
-        "  AREP: %u API: %u Slot: %2u Subslot: %u Index: %u Sequence: %2u "
-        "Length: %u\n",
-        arep,
-        api,
-        slot_nbr,
-        subslot_nbr,
-        (unsigned)idx,
-        sequence_number,
-        write_length);
+    // int result = 0;
+    // app_data_t * app = (app_data_t *)arg;
+    // app_subslot_t * subslot;
+    // APP_LOG_DEBUG (
+    //     "PLC write record indication.\n"
+    //     "  AREP: %u API: %u Slot: %2u Subslot: %u Index: %u Sequence: %2u "
+    //     "Length: %u\n",
+    //     arep,
+    //     api,
+    //     slot_nbr,
+    //     subslot_nbr,
+    //     (unsigned)idx,
+    //     sequence_number,
+    //     write_length);
 
-    subslot = app_utils_subslot_get (&app->main_api, slot_nbr, subslot_nbr);
-    if (subslot == NULL) {
-        APP_LOG_WARNING (
-            "No submodule plugged in AREP: %u API: %u Slot: %2u Subslot: %u "
-            "Index will not be written.\n",
-            arep,
-            api,
-            slot_nbr,
-            subslot_nbr);
-        p_result->pnio_status.error_code = PNET_ERROR_CODE_WRITE;
-        p_result->pnio_status.error_decode = PNET_ERROR_DECODE_PNIORW;
-        p_result->pnio_status.error_code_1 = PNET_ERROR_CODE_1_APP_WRITE_ERROR;
-        p_result->pnio_status.error_code_2 = 0; /* User specific */
+    // subslot = app_utils_subslot_get (&app->main_api, slot_nbr, subslot_nbr);
+    // if (subslot == NULL) {
+    //     APP_LOG_WARNING (
+    //         "No submodule plugged in AREP: %u API: %u Slot: %2u Subslot: %u "
+    //         "Index will not be written.\n",
+    //         arep,
+    //         api,
+    //         slot_nbr,
+    //         subslot_nbr);
+    //     p_result->pnio_status.error_code = PNET_ERROR_CODE_WRITE;
+    //     p_result->pnio_status.error_decode = PNET_ERROR_DECODE_PNIORW;
+    //     p_result->pnio_status.error_code_1 =
+    //     PNET_ERROR_CODE_1_APP_WRITE_ERROR; p_result->pnio_status.error_code_2
+    //     = 0; /* User specific */
 
-        return -1;
-    }
+    //     return -1;
+    // }
 
-    result = app_data_write_parameter (
-        slot_nbr,
-        subslot_nbr,
-        subslot->submodule_id,
-        idx,
-        p_write_data,
-        write_length);
-    if (result != 0) {
-        APP_LOG_WARNING (
-            "Failed to write index for AREP: %u API: %u Slot: %2u Subslot: %u "
-            "index %u.\n",
-            arep,
-            api,
-            slot_nbr,
-            subslot_nbr,
-            idx);
-        p_result->pnio_status.error_code = PNET_ERROR_CODE_WRITE;
-        p_result->pnio_status.error_decode = PNET_ERROR_DECODE_PNIORW;
-        p_result->pnio_status.error_code_1 = PNET_ERROR_CODE_1_APP_WRITE_ERROR;
-        p_result->pnio_status.error_code_2 = 0; /* User specific */
-    }
+    // result = app_data_write_parameter (
+    //     slot_nbr,
+    //     subslot_nbr,
+    //     subslot->submodule_id,
+    //     idx,
+    //     p_write_data,
+    //     write_length);
+    // if (result != 0) {
+    //     APP_LOG_WARNING (
+    //         "Failed to write index for AREP: %u API: %u Slot: %2u Subslot: %u
+    //         " "index %u.\n", arep, api, slot_nbr, subslot_nbr, idx);
+    //     p_result->pnio_status.error_code = PNET_ERROR_CODE_WRITE;
+    //     p_result->pnio_status.error_decode = PNET_ERROR_DECODE_PNIORW;
+    //     p_result->pnio_status.error_code_1 =
+    //     PNET_ERROR_CODE_1_APP_WRITE_ERROR; p_result->pnio_status.error_code_2
+    //     = 0; /* User specific */
+    // }
 
-    return result;
+    // return result;
+
+    return 0;
 }
 
 static int app_read_ind (
@@ -402,62 +401,55 @@ static int app_read_ind (
     uint8_t ** pp_read_data,
     uint16_t * p_read_length,
     pnet_result_t * p_result) {
-    int result = 0;
-    app_data_t * app = (app_data_t *)arg;
-    app_subslot_t * subslot;
+    // int result = 0;
+    // app_data_t * app = (app_data_t *)arg;
+    // app_subslot_t * subslot;
 
-    APP_LOG_DEBUG (
-        "PLC read record indication.\n"
-        "  AREP: %u API: %u Slot: %2u Subslot: %u Index: %u Sequence: %2u Max "
-        "length: %u\n",
-        arep,
-        api,
-        slot_nbr,
-        subslot_nbr,
-        (unsigned)idx,
-        sequence_number,
-        (unsigned)*p_read_length);
+    // APP_LOG_DEBUG (
+    //     "PLC read record indication.\n"
+    //     "  AREP: %u API: %u Slot: %2u Subslot: %u Index: %u Sequence: %2u Max
+    //     " "length: %u\n", arep, api, slot_nbr, subslot_nbr, (unsigned)idx,
+    //     sequence_number,
+    //     (unsigned)*p_read_length);
 
-    subslot = app_utils_subslot_get (&app->main_api, slot_nbr, subslot_nbr);
-    if (subslot == NULL) {
-        APP_LOG_WARNING (
-            "No submodule plugged in AREP: %u API: %u Slot: %2u Subslot: %u "
-            "Index will not be read.\n",
-            arep,
-            api,
-            slot_nbr,
-            subslot_nbr);
-        p_result->pnio_status.error_code = PNET_ERROR_CODE_READ;
-        p_result->pnio_status.error_decode = PNET_ERROR_DECODE_PNIORW;
-        p_result->pnio_status.error_code_1 = PNET_ERROR_CODE_1_APP_READ_ERROR;
-        p_result->pnio_status.error_code_2 = 0; /* User specific */
-        return -1;
-    }
+    // subslot = app_utils_subslot_get (&app->main_api, slot_nbr, subslot_nbr);
+    // if (subslot == NULL) {
+    //     APP_LOG_WARNING (
+    //         "No submodule plugged in AREP: %u API: %u Slot: %2u Subslot: %u "
+    //         "Index will not be read.\n",
+    //         arep,
+    //         api,
+    //         slot_nbr,
+    //         subslot_nbr);
+    //     p_result->pnio_status.error_code = PNET_ERROR_CODE_READ;
+    //     p_result->pnio_status.error_decode = PNET_ERROR_DECODE_PNIORW;
+    //     p_result->pnio_status.error_code_1 =
+    //     PNET_ERROR_CODE_1_APP_READ_ERROR; p_result->pnio_status.error_code_2
+    //     = 0; /* User specific */ return -1;
+    // }
 
-    result = app_data_read_parameter (
-        slot_nbr,
-        subslot_nbr,
-        subslot->submodule_id,
-        idx,
-        pp_read_data,
-        p_read_length);
+    // result = app_data_read_parameter (
+    //     slot_nbr,
+    //     subslot_nbr,
+    //     subslot->submodule_id,
+    //     idx,
+    //     pp_read_data,
+    //     p_read_length);
 
-    if (result != 0) {
-        APP_LOG_WARNING (
-            "Failed to read index for AREP: %u API: %u Slot: %2u Subslot: %u "
-            "index %u.\n",
-            arep,
-            api,
-            slot_nbr,
-            subslot_nbr,
-            idx);
-        p_result->pnio_status.error_code = PNET_ERROR_CODE_READ;
-        p_result->pnio_status.error_decode = PNET_ERROR_DECODE_PNIORW;
-        p_result->pnio_status.error_code_1 = PNET_ERROR_CODE_1_APP_READ_ERROR;
-        p_result->pnio_status.error_code_2 = 0; /* User specific */
-    }
+    // if (result != 0) {
+    //     APP_LOG_WARNING (
+    //         "Failed to read index for AREP: %u API: %u Slot: %2u Subslot: %u
+    //         " "index %u.\n", arep, api, slot_nbr, subslot_nbr, idx);
+    //     p_result->pnio_status.error_code = PNET_ERROR_CODE_READ;
+    //     p_result->pnio_status.error_decode = PNET_ERROR_DECODE_PNIORW;
+    //     p_result->pnio_status.error_code_1 =
+    //     PNET_ERROR_CODE_1_APP_READ_ERROR; p_result->pnio_status.error_code_2
+    //     = 0; /* User specific */
+    // }
 
-    return result;
+    // return result;
+
+    return 0;
 }
 
 static int app_state_ind (
