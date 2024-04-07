@@ -113,7 +113,7 @@
                 </ModuleItem>
                 <ModuleItem ID="IDM_3" ModuleIdentNumber="0x00000003">
                     <ModuleInfo>
-                        <Name TextId="TOK_Name_Module_I8" />
+                        <Name TextId="TOK_Name_Module_O8" />
                         <InfoText TextId="TOK_InfoText_Module_O8" />
                         <HardwareRelease Value="1.0" />
                         <SoftwareRelease Value="1.0" />
