@@ -1,3 +1,6 @@
 [submodule "cmake/tools"]
 	path = cmake/tools
 	url = https://github.com/rtlabs-com/cmake-tools
+[submodule "WiringPi"]
+	path = WiringPi
+	url = https://github.com/WiringPi/WiringPi
