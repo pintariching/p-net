@@ -38,19 +38,19 @@ static const app_gsdml_module_t dap_1 = {
         PNET_SUBMOD_DAP_INTERFACE_1_PORT_4_IDENT,
         0}};
 
-static const app_gsdml_module_t module_digital_out_1 = {
+static const app_gsdml_module_t module_digital_in_1 = {
     .id = APP_GSDML_MOD_ID_32_0_DIGITAL_IN_1,
-    .name = "DO 32xLogicLevel",
+    .name = "DI Float32 Urica 1",
     .submodules = {APP_GSDML_MOD_ID_32_0_DIGITAL_IN_1, 0}};
 
-static const app_gsdml_module_t module_digital_out_2 = {
+static const app_gsdml_module_t module_digital_in_2 = {
     .id = APP_GSDML_MOD_ID_32_0_DIGITAL_IN_2,
-    .name = "DO 32xLogicLevel",
+    .name = "DI Float32 Urica 2",
     .submodules = {APP_GSDML_MOD_ID_32_0_DIGITAL_IN_2, 0}};
 
-static const app_gsdml_module_t module_digital_in = {
+static const app_gsdml_module_t module_digital_out = {
     .id = APP_GSDML_MOD_ID_0_8_DIGITAL_OUT,
-    .name = "DI 8xLogicLevel",
+    .name = "DO 8xLogicLevel",
     .submodules = {APP_GSDML_MOD_ID_0_8_DIGITAL_OUT, 0},
 };
 
@@ -112,34 +112,34 @@ static const app_gsdml_submodule_t dap_port_4 = {
 
 static const app_gsdml_submodule_t submod_digital_out = {
     .id = APP_GSDML_SUBMOD_ID_DIGITAL_OUT,
-    .name = "Digital Output",
+    .name = "Digital Out 8xLogicLevel",
     .api = APP_GSDML_API,
     .data_dir = PNET_DIR_OUTPUT,
-    .insize = APP_GSDML_OUTPUT_DATA_DIGITAL_SIZE,
-    .outsize = 0,
+    .insize = 0,
+    .outsize = APP_GSDML_OUTPUT_DATA_DIGITAL_SIZE,
     .parameters = {0}};
 
 static const app_gsdml_submodule_t submod_digital_in_1 = {
     .id = APP_GSDML_SUBMOD_ID_DIGITAL_IN_1,
-    .name = "Digital Input 1",
+    .name = "Digital In 32xLogicLevel",
     .api = APP_GSDML_API,
     .data_dir = PNET_DIR_INPUT,
-    .insize = 0,
-    .outsize = APP_GSDML_INPUT_DATA_DIGITAL_SIZE,
+    .insize = APP_GSDML_INPUT_DATA_DIGITAL_SIZE,
+    .outsize = 0,
     .parameters = {0}};
 
 static const app_gsdml_submodule_t submod_digital_in_2 = {
     .id = APP_GSDML_SUBMOD_ID_DIGITAL_IN_2,
-    .name = "Digital Input 2",
+    .name = "Digital In 32xLogicLevel",
     .api = APP_GSDML_API,
     .data_dir = PNET_DIR_INPUT,
-    .insize = 0,
-    .outsize = APP_GSDML_INPUT_DATA_DIGITAL_SIZE,
+    .insize = APP_GSDML_INPUT_DATA_DIGITAL_SIZE,
+    .outsize = 0,
     .parameters = {0}};
 
 /** List of supported modules */
 static const app_gsdml_module_t * app_gsdml_modules[] =
-    {&dap_1, &module_digital_in, &module_digital_out_1, &module_digital_out_2};
+    {&dap_1, &module_digital_out, &module_digital_in_1, &module_digital_in_2};
 
 /** List of supported submodules */
 static const app_gsdml_submodule_t * app_gsdml_submodules[] = {

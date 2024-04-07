@@ -145,18 +145,18 @@
                     <Text TextId="IDT_NAME_PS1" Value="X1 P1" />
                     <!--module
                     name-->
-                    <Text TextId="TOK_Name_Module_O32_1" Value="DO Float32 Urica 1" />
-                    <Text TextId="TOK_Name_Module_O32_2" Value="DO Float32 Urica 2" />
-                    <Text TextId="TOK_Name_Module_I8" Value="DI 8xLogicLevel" />
+                    <Text TextId="TOK_Name_Module_O32_1" Value="DI Float32 Urica 1" />
+                    <Text TextId="TOK_Name_Module_O32_2" Value="DI Float32 Urica 2" />
+                    <Text TextId="TOK_Name_Module_I8" Value="DO 8xLogicLevel" />
                     <!--module
                     info -->
-                    <Text TextId="TOK_InfoText_Module_O32_1" Value="Digital Out 32xLogicLevel" />
-                    <Text TextId="TOK_InfoText_Module_O32_2" Value="Digital Out 32xLogicLevel" />
-                    <Text TextId="TOK_InfoText_Module_I8" Value="Digital In 8xLogicLevel" />
+                    <Text TextId="TOK_InfoText_Module_O32_1" Value="Digital In 32xLogicLevel" />
+                    <Text TextId="TOK_InfoText_Module_O32_2" Value="Digital In 32xLogicLevel" />
+                    <Text TextId="TOK_InfoText_Module_I8" Value="Digital Out 8xLogicLevel" />
                     <!--dataitem
                     name-->
-                    <Text TextId="TOK_Output_DataItem_32" Value="Output 32 bits" />
-                    <Text TextId="TOK_Input_DataItem_8" Value="Input 8 bits" />
+                    <Text TextId="TOK_Output_DataItem_32" Value="Input 32 bits" />
+                    <Text TextId="TOK_Input_DataItem_8" Value="Output 8 bits" />
                 </PrimaryLanguage>
             </ExternalTextList>
         </ApplicationProcess>

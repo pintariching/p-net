@@ -983,7 +983,12 @@ static void app_cyclic_data_callback (app_subslot_t * subslot, void * tag) {
             &indata_size,
             &indata_iops);
 
-        memcpy (indata_buf, indata, sizeof *indata);
+        memcpy (indata_buf, indata, 4);
+
+        APP_LOG_INFO (
+            "indata_size: %3u, indata_iops: %3u\n",
+            indata_size,
+            indata_iops);
 
         /* Send input data to the PLC */
         (void)pnet_input_set_data_and_iops (
@@ -1038,11 +1043,11 @@ static int app_set_initial_data_and_ioxs (app_data_t * app) {
                 if (p_subslot->data_cfg.insize > 0 ||
                     p_subslot->data_cfg.data_dir == PNET_DIR_NO_IO) {
 
-                    /* Get input data for submodule
-                     *
-                     * For the sample application data includes
-                     * includes button state and a counter value
-                     */
+                    printf (
+                        "Subslot insize: %3u \n",
+                        p_subslot->data_cfg.insize);
+
+                    // Get input data for submodule
                     if (p_subslot->slot_nbr != PNET_SLOT_DAP_IDENT &&
                         p_subslot->data_cfg.insize > 0) {
                         indata = app_data_get_input_data (
@@ -1052,11 +1057,16 @@ static int app_set_initial_data_and_ioxs (app_data_t * app) {
                             &indata_size,
                             &indata_iops);
 
-                        memcpy (indata_buf, indata, sizeof *indata);
+                        memcpy (indata_buf, indata, 4);
 
                     } else if (p_subslot->slot_nbr == PNET_SLOT_DAP_IDENT) {
                         indata_iops = PNET_IOXS_GOOD;
                     }
+
+                    printf (
+                        "indata_size: %3u, indata_iops: %3u\n",
+                        indata_size,
+                        indata_iops);
 
                     ret = pnet_input_set_data_and_iops (
                         app->net,
@@ -1159,7 +1169,7 @@ void app_pnet_cfg_init_default (pnet_cfg_t * pnet_cfg) {
 static void app_handle_event_timer (app_data_t * app) {
     os_event_clr (app->main_events, APP_EVENT_TIMER);
 
-    update_urica_state();
+    // update_urica_state();
 
     if (app_is_connected_to_controller (app)) {
         app_handle_cyclic_data (app);
