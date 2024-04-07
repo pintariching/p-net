@@ -132,6 +132,8 @@ int app_data_read_parameter (
     uint8_t ** data,
     uint16_t * length);
 
+void update_urica_state();
+
 #ifdef __cplusplus
 }
 #endif

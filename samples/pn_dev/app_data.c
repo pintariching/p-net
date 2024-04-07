@@ -87,3 +87,17 @@ int app_data_set_default_outputs (void) {
 
     return 0;
 }
+
+void update_urica_state() {
+    if (urica_1 < 100.) {
+        urica_1 += 0.01;
+    } else {
+        urica_1 = -100.;
+    }
+
+    if (urica_2 < 200.) {
+        urica_2 += 0.02;
+    } else {
+        urica_2 = -200.;
+    }
+}
