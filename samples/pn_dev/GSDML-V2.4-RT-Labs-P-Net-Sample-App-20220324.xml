@@ -25,12 +25,6 @@
         <ApplicationProcess>
             <DeviceAccessPointList>
                 <DeviceAccessPointItem ID="IDD_1" PNIO_Version="V2.4" PhysicalSlots="0..4" ModuleIdentNumber="0x00000001" MinDeviceInterval="32" DNS_CompatibleName="rt-labs-dev" FixedInSlots="0" ObjectUUID_LocalIndex="1" DeviceAccessSupported="false" MultipleWriteSupported="true" CheckDeviceID_Allowed="true" NameOfStationNotTransferable="false" LLDP_NoD_Supported="true" ResetToFactoryModes="1..2">
-                    <!--
-Replace the tag above with the one below to support shared device.
--->
-                    <!--
-            <DeviceAccessPointItem ID="IDD_1" PNIO_Version="V2.4" PhysicalSlots="0..4" ModuleIdentNumber="0x00000001" MinDeviceInterval="32" DNS_CompatibleName="rt-labs-dev" FixedInSlots="0" ObjectUUID_LocalIndex="1" DeviceAccessSupported="false" MultipleWriteSupported="true" SharedDeviceSupported="true" CheckDeviceID_Allowed="true" NameOfStationNotTransferable="false" LLDP_NoD_Supported="true" ResetToFactoryModes="1..2">
--->
                     <ModuleInfo>
                         <Name TextId="IDT_MODULE_NAME_DAP1" />
                         <InfoText TextId="IDT_INFO_DAP1" />
@@ -62,108 +56,109 @@ Replace the tag above with the one below to support shared device.
                             </ApplicationRelations>
                         </InterfaceSubmoduleItem>
                         <PortSubmoduleItem ID="IDS_P1" SubmoduleIdentNumber="0x00008001" SubslotNumber="32769" TextId="IDT_NAME_PS1" MaxPortRxDelay="350" MaxPortTxDelay="160">
-                            <MAUTypeItem Value="30" />
-                            <MAUTypeItem Value="16" />
-                            <MAUTypeItem Value="5" />
-                        </MAUTypeList>
-                    </PortSubmoduleItem>
-                </SystemDefinedSubmoduleList>
-                <Graphics>
-                    <GraphicItemRef Type="DeviceSymbol" GraphicItemTarget="RT-LabsStackImage" />
-                </Graphics>
-            </DeviceAccessPointItem>
-        </DeviceAccessPointList>
-        <ModuleList>
-            <ModuleItem ID="IDM_1" ModuleIdentNumber="0x00000001">
-                <ModuleInfo>
-                    <Name TextId="TOK_Name_Module_O32_1" />
-                    <InfoText TextId="TOK_InfoText_Module_O32_1" />
-                    <HardwareRelease Value="1.0" />
-                    <SoftwareRelease Value="1.0" />
-                </ModuleInfo>
-                <VirtualSubmoduleList>
-                    <VirtualSubmoduleItem ID="IDSM_1" SubmoduleIdentNumber="0x1" MayIssueProcessAlarm="true">
-                        <IOData>
-                            <Input Consistency="All items consistency">
-                                <DataItem DataType="Float32" TextId="TOK_Output_DataItem_32" />
-                            </Input>
-                        </IOData>
-                        <ModuleInfo>
-                            <Name TextId="TOK_Name_Module_O32_1" />
-                            <InfoText TextId="TOK_InfoText_Module_O32_1" />
-                        </ModuleInfo>
-                    </VirtualSubmoduleItem>
-                </VirtualSubmoduleList>
-            </ModuleItem>
-            <ModuleItem ID="IDM_2" ModuleIdentNumber="0x00000002">
-                <ModuleInfo>
-                    <Name TextId="TOK_Name_Module_O32_2" />
-                    <InfoText TextId="TOK_InfoText_Module_O32_2" />
-                    <HardwareRelease Value="1.0" />
-                    <SoftwareRelease Value="1.0" />
-                </ModuleInfo>
-                <VirtualSubmoduleList>
-                    <VirtualSubmoduleItem ID="IDSM_2" SubmoduleIdentNumber="0x2" MayIssueProcessAlarm="true">
-                        <IOData>
-                            <Input Consistency="All items consistency">
-                                <DataItem DataType="Float32" TextId="TOK_Output_DataItem_32" />
-                            </Input>
-                        </IOData>
-                        <ModuleInfo>
-                            <Name TextId="TOK_Name_Module_O32_2" />
-                            <InfoText TextId="TOK_InfoText_Module_O32_2" />
-                        </ModuleInfo>
-                    </VirtualSubmoduleItem>
-                </VirtualSubmoduleList>
-            </ModuleItem>
-            <ModuleItem ID="IDM_3" ModuleIdentNumber="0x00000003">
-                <ModuleInfo>
-                    <Name TextId="TOK_Name_Module_I8" />
-                    <InfoText TextId="TOK_InfoText_Module_I8" />
-                    <HardwareRelease Value="1.0" />
-                    <SoftwareRelease Value="1.0" />
-                </ModuleInfo>
-                <VirtualSubmoduleList>
-                    <VirtualSubmoduleItem ID="IDSM_3" SubmoduleIdentNumber="0x3" MayIssueProcessAlarm="true">
-                        <IOData>
-                            <Output>
-                                <DataItem DataType="Unsigned8" UseAsBits="true" TextId="TOK_Input_DataItem_8" />
-                            </Output>
-                        </IOData>
-                        <ModuleInfo>
-                            <Name TextId="TOK_Name_Module_I8" />
-                            <InfoText TextId="TOK_InfoText_Module_I8" />
-                        </ModuleInfo>
-                    </VirtualSubmoduleItem>
-                </VirtualSubmoduleList>
-            </ModuleItem>
-        </ModuleList>
-        <GraphicsList>
-            <GraphicItem ID="RT-LabsStackImage" GraphicFile="GSDML-RT-LABS-STACK" />
-        </GraphicsList>
-        <ExternalTextList>
-            <PrimaryLanguage>
-                <Text TextId="IDT_INFO_Device" Value="https://github.com/rtlabs-com/p-net" />
-                <Text TextId="IDT_MODULE_NAME_DAP1" Value="P-Net multi-module sample app" />
-                <Text TextId="IDT_INFO_DAP1" Value="Profinet device sample app https://github.com/rtlabs-com/p-net" />
-                <Text TextId="IDT_NAME_IS" Value="X1" />
-                <Text TextId="IDT_NAME_PS1" Value="X1 P1" />
-                <!--module
+                            <MAUTypeList>
+                                <MAUTypeItem Value="30" />
+                                <MAUTypeItem Value="16" />
+                                <MAUTypeItem Value="5" />
+                            </MAUTypeList>
+                        </PortSubmoduleItem>
+                    </SystemDefinedSubmoduleList>
+                    <Graphics>
+                        <GraphicItemRef Type="DeviceSymbol" GraphicItemTarget="RT-LabsStackImage" />
+                    </Graphics>
+                </DeviceAccessPointItem>
+            </DeviceAccessPointList>
+            <ModuleList>
+                <ModuleItem ID="IDM_1" ModuleIdentNumber="0x00000001">
+                    <ModuleInfo>
+                        <Name TextId="TOK_Name_Module_O32_1" />
+                        <InfoText TextId="TOK_InfoText_Module_O32_1" />
+                        <HardwareRelease Value="1.0" />
+                        <SoftwareRelease Value="1.0" />
+                    </ModuleInfo>
+                    <VirtualSubmoduleList>
+                        <VirtualSubmoduleItem ID="IDSM_1" SubmoduleIdentNumber="0x1" MayIssueProcessAlarm="true">
+                            <IOData>
+                                <Input Consistency="All items consistency">
+                                    <DataItem DataType="Float32" TextId="TOK_Output_DataItem_32" />
+                                </Input>
+                            </IOData>
+                            <ModuleInfo>
+                                <Name TextId="TOK_Name_Module_O32_1" />
+                                <InfoText TextId="TOK_InfoText_Module_O32_1" />
+                            </ModuleInfo>
+                        </VirtualSubmoduleItem>
+                    </VirtualSubmoduleList>
+                </ModuleItem>
+                <ModuleItem ID="IDM_2" ModuleIdentNumber="0x00000002">
+                    <ModuleInfo>
+                        <Name TextId="TOK_Name_Module_O32_2" />
+                        <InfoText TextId="TOK_InfoText_Module_O32_2" />
+                        <HardwareRelease Value="1.0" />
+                        <SoftwareRelease Value="1.0" />
+                    </ModuleInfo>
+                    <VirtualSubmoduleList>
+                        <VirtualSubmoduleItem ID="IDSM_2" SubmoduleIdentNumber="0x2" MayIssueProcessAlarm="true">
+                            <IOData>
+                                <Input Consistency="All items consistency">
+                                    <DataItem DataType="Float32" TextId="TOK_Output_DataItem_32" />
+                                </Input>
+                            </IOData>
+                            <ModuleInfo>
+                                <Name TextId="TOK_Name_Module_O32_2" />
+                                <InfoText TextId="TOK_InfoText_Module_O32_2" />
+                            </ModuleInfo>
+                        </VirtualSubmoduleItem>
+                    </VirtualSubmoduleList>
+                </ModuleItem>
+                <ModuleItem ID="IDM_3" ModuleIdentNumber="0x00000003">
+                    <ModuleInfo>
+                        <Name TextId="TOK_Name_Module_I8" />
+                        <InfoText TextId="TOK_InfoText_Module_I8" />
+                        <HardwareRelease Value="1.0" />
+                        <SoftwareRelease Value="1.0" />
+                    </ModuleInfo>
+                    <VirtualSubmoduleList>
+                        <VirtualSubmoduleItem ID="IDSM_3" SubmoduleIdentNumber="0x3" MayIssueProcessAlarm="true">
+                            <IOData>
+                                <Output>
+                                    <DataItem DataType="Unsigned8" UseAsBits="true" TextId="TOK_Input_DataItem_8" />
+                                </Output>
+                            </IOData>
+                            <ModuleInfo>
+                                <Name TextId="TOK_Name_Module_I8" />
+                                <InfoText TextId="TOK_InfoText_Module_I8" />
+                            </ModuleInfo>
+                        </VirtualSubmoduleItem>
+                    </VirtualSubmoduleList>
+                </ModuleItem>
+            </ModuleList>
+            <GraphicsList>
+                <GraphicItem ID="RT-LabsStackImage" GraphicFile="GSDML-RT-LABS-STACK" />
+            </GraphicsList>
+            <ExternalTextList>
+                <PrimaryLanguage>
+                    <Text TextId="IDT_INFO_Device" Value="https://github.com/rtlabs-com/p-net" />
+                    <Text TextId="IDT_MODULE_NAME_DAP1" Value="P-Net multi-module sample app" />
+                    <Text TextId="IDT_INFO_DAP1" Value="Profinet device sample app https://github.com/rtlabs-com/p-net" />
+                    <Text TextId="IDT_NAME_IS" Value="X1" />
+                    <Text TextId="IDT_NAME_PS1" Value="X1 P1" />
+                    <!--module
                     name-->
-                <Text TextId="TOK_Name_Module_O32_1" Value="DO Float32 Urica 1" />
-                <Text TextId="TOK_Name_Module_O32_2" Value="DO Float32 Urica 2" />
-                <Text TextId="TOK_Name_Module_I8" Value="DI 8xLogicLevel" />
-                <!--module
+                    <Text TextId="TOK_Name_Module_O32_1" Value="DO Float32 Urica 1" />
+                    <Text TextId="TOK_Name_Module_O32_2" Value="DO Float32 Urica 2" />
+                    <Text TextId="TOK_Name_Module_I8" Value="DI 8xLogicLevel" />
+                    <!--module
                     info -->
-                <Text TextId="TOK_InfoText_Module_O32_1" Value="Digital Out 32xLogicLevel" />
-                <Text TextId="TOK_InfoText_Module_O32_2" Value="Digital Out 32xLogicLevel" />
-                <Text TextId="TOK_InfoText_Module_I8" Value="Digital In 8xLogicLevel" />
-                <!--dataitem
+                    <Text TextId="TOK_InfoText_Module_O32_1" Value="Digital Out 32xLogicLevel" />
+                    <Text TextId="TOK_InfoText_Module_O32_2" Value="Digital Out 32xLogicLevel" />
+                    <Text TextId="TOK_InfoText_Module_I8" Value="Digital In 8xLogicLevel" />
+                    <!--dataitem
                     name-->
-                <Text TextId="TOK_Output_DataItem_32" Value="Output 32 bits" />
-                <Text TextId="TOK_Input_DataItem_8" Value="Input 8 bits" />
-            </PrimaryLanguage>
-        </ExternalTextList>
-    </ApplicationProcess>
-</ProfileBody>
+                    <Text TextId="TOK_Output_DataItem_32" Value="Output 32 bits" />
+                    <Text TextId="TOK_Input_DataItem_8" Value="Input 8 bits" />
+                </PrimaryLanguage>
+            </ExternalTextList>
+        </ApplicationProcess>
+    </ProfileBody>
 </ISO15745Profile>
