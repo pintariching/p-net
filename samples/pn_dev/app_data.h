@@ -133,6 +133,9 @@ int app_data_read_parameter (
     uint16_t * length);
 
 void update_urica_state();
+void setup_urica_pins();
+float meri_urico (int id);
+void check_plc_output();
 
 #ifdef __cplusplus
 }

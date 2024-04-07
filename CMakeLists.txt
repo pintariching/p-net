@@ -18,6 +18,7 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/tools")
 project (PROFINET VERSION 0.2.0)
 
+
 # Default settings if this is the main project
 if (CMAKE_PROJECT_NAME STREQUAL PROFINET)
   include(CTest)
@@ -203,9 +204,12 @@ target_include_directories(profinet
   src
   src/common
   src/device
+  WiringPi/wiringPi
   )
 
 target_link_libraries(profinet PUBLIC osal)
+target_link_libraries(profinet PUBLIC wiringPi)
+target_link_libraries(profinet PUBLIC m)
 
 install (
   TARGETS profinet
