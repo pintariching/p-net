@@ -71,42 +71,42 @@
             <ModuleList>
                 <ModuleItem ID="IDM_1" ModuleIdentNumber="0x00000001">
                     <ModuleInfo>
-                        <Name TextId="TOK_Name_Module_O32_1" />
-                        <InfoText TextId="TOK_InfoText_Module_O32_1" />
+                        <Name TextId="TOK_Name_Module_I32_1" />
+                        <InfoText TextId="TOK_InfoText_Module_I32_1" />
                         <HardwareRelease Value="1.0" />
                         <SoftwareRelease Value="1.0" />
                     </ModuleInfo>
                     <VirtualSubmoduleList>
-                        <VirtualSubmoduleItem ID="IDSM_1" SubmoduleIdentNumber="0x1" MayIssueProcessAlarm="true">
+                        <VirtualSubmoduleItem ID="IDSM_131" SubmoduleIdentNumber="0x0131" MayIssueProcessAlarm="true">
                             <IOData>
                                 <Input Consistency="All items consistency">
-                                    <DataItem DataType="Float32" TextId="TOK_Output_DataItem_32" />
+                                    <DataItem DataType="Float32" TextId="TOK_Input_DataItem_32" />
                                 </Input>
                             </IOData>
                             <ModuleInfo>
-                                <Name TextId="TOK_Name_Module_O32_1" />
-                                <InfoText TextId="TOK_InfoText_Module_O32_1" />
+                                <Name TextId="TOK_Name_Module_I32_1" />
+                                <InfoText TextId="TOK_InfoText_Module_I32_1" />
                             </ModuleInfo>
                         </VirtualSubmoduleItem>
                     </VirtualSubmoduleList>
                 </ModuleItem>
                 <ModuleItem ID="IDM_2" ModuleIdentNumber="0x00000002">
                     <ModuleInfo>
-                        <Name TextId="TOK_Name_Module_O32_2" />
-                        <InfoText TextId="TOK_InfoText_Module_O32_2" />
+                        <Name TextId="TOK_Name_Module_I32_2" />
+                        <InfoText TextId="TOK_InfoText_Module_I32_2" />
                         <HardwareRelease Value="1.0" />
                         <SoftwareRelease Value="1.0" />
                     </ModuleInfo>
                     <VirtualSubmoduleList>
-                        <VirtualSubmoduleItem ID="IDSM_2" SubmoduleIdentNumber="0x2" MayIssueProcessAlarm="true">
+                        <VirtualSubmoduleItem ID="IDSM_132" SubmoduleIdentNumber="0x0132" MayIssueProcessAlarm="true">
                             <IOData>
                                 <Input Consistency="All items consistency">
-                                    <DataItem DataType="Float32" TextId="TOK_Output_DataItem_32" />
+                                    <DataItem DataType="Float32" TextId="TOK_Input_DataItem_32" />
                                 </Input>
                             </IOData>
                             <ModuleInfo>
-                                <Name TextId="TOK_Name_Module_O32_2" />
-                                <InfoText TextId="TOK_InfoText_Module_O32_2" />
+                                <Name TextId="TOK_Name_Module_I32_2" />
+                                <InfoText TextId="TOK_InfoText_Module_I32_2" />
                             </ModuleInfo>
                         </VirtualSubmoduleItem>
                     </VirtualSubmoduleList>
@@ -114,20 +114,20 @@
                 <ModuleItem ID="IDM_3" ModuleIdentNumber="0x00000003">
                     <ModuleInfo>
                         <Name TextId="TOK_Name_Module_I8" />
-                        <InfoText TextId="TOK_InfoText_Module_I8" />
+                        <InfoText TextId="TOK_InfoText_Module_O8" />
                         <HardwareRelease Value="1.0" />
                         <SoftwareRelease Value="1.0" />
                     </ModuleInfo>
                     <VirtualSubmoduleList>
-                        <VirtualSubmoduleItem ID="IDSM_3" SubmoduleIdentNumber="0x3" MayIssueProcessAlarm="true">
+                        <VirtualSubmoduleItem ID="IDSM_133" SubmoduleIdentNumber="0x0133" MayIssueProcessAlarm="true">
                             <IOData>
                                 <Output>
-                                    <DataItem DataType="Unsigned8" UseAsBits="true" TextId="TOK_Input_DataItem_8" />
+                                    <DataItem DataType="Unsigned8" UseAsBits="true" TextId="TOK_Output_DataItem_8" />
                                 </Output>
                             </IOData>
                             <ModuleInfo>
-                                <Name TextId="TOK_Name_Module_I8" />
-                                <InfoText TextId="TOK_InfoText_Module_I8" />
+                                <Name TextId="TOK_Name_Module_O8" />
+                                <InfoText TextId="TOK_InfoText_Module_O8" />
                             </ModuleInfo>
                         </VirtualSubmoduleItem>
                     </VirtualSubmoduleList>
@@ -145,18 +145,18 @@
                     <Text TextId="IDT_NAME_PS1" Value="X1 P1" />
                     <!--module
                     name-->
-                    <Text TextId="TOK_Name_Module_O32_1" Value="DI Float32 Urica 1" />
-                    <Text TextId="TOK_Name_Module_O32_2" Value="DI Float32 Urica 2" />
-                    <Text TextId="TOK_Name_Module_I8" Value="DO 8xLogicLevel" />
+                    <Text TextId="TOK_Name_Module_I32_1" Value="DI Float32 Urica 1" />
+                    <Text TextId="TOK_Name_Module_I32_2" Value="DI Float32 Urica 2" />
+                    <Text TextId="TOK_Name_Module_O8" Value="DO 8xLogicLevel" />
                     <!--module
                     info -->
-                    <Text TextId="TOK_InfoText_Module_O32_1" Value="Digital In 32xLogicLevel" />
-                    <Text TextId="TOK_InfoText_Module_O32_2" Value="Digital In 32xLogicLevel" />
-                    <Text TextId="TOK_InfoText_Module_I8" Value="Digital Out 8xLogicLevel" />
+                    <Text TextId="TOK_InfoText_Module_I32_1" Value="Digital In 32xLogicLevel" />
+                    <Text TextId="TOK_InfoText_Module_I32_2" Value="Digital In 32xLogicLevel" />
+                    <Text TextId="TOK_InfoText_Module_O8" Value="Digital Out 8xLogicLevel" />
                     <!--dataitem
                     name-->
-                    <Text TextId="TOK_Output_DataItem_32" Value="Input 32 bits" />
-                    <Text TextId="TOK_Input_DataItem_8" Value="Output 8 bits" />
+                    <Text TextId="TOK_Input_DataItem_32" Value="Input 32 bits" />
+                    <Text TextId="TOK_Output_DataItem_8" Value="Output 8 bits" />
                 </PrimaryLanguage>
             </ExternalTextList>
         </ApplicationProcess>
