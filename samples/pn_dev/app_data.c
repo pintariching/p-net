@@ -90,13 +90,15 @@ int app_data_set_default_outputs (void) {
 
 void update_urica_state() {
     if (urica_1 < 100.) {
-        urica_1 += 0.01;
+        urica_1 += 0.001;
     } else {
         urica_1 = -100.;
     }
 
+    printf ("Urica 1: %5f\n", urica_1);
+
     if (urica_2 < 200.) {
-        urica_2 += 0.02;
+        urica_2 += 0.002;
     } else {
         urica_2 = -200.;
     }
