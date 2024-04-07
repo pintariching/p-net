@@ -40,16 +40,14 @@ extern "C" {
 #define APP_TICKS_UPDATE_DATA  100
 
 /** HW Offload configuration. */
-typedef enum
-{
+typedef enum {
     MODE_HW_OFFLOAD_NONE = 0,
     MODE_HW_OFFLOAD_CPU,
     MODE_HW_OFFLOAD_FULL,
 } app_mode_t;
 
 /** Command line arguments for sample application */
-typedef struct app_args
-{
+typedef struct app_args {
     char path_button1[PNET_MAX_FILE_FULLPATH_SIZE]; /** Terminated string */
     char path_button2[PNET_MAX_FILE_FULLPATH_SIZE]; /** Terminated string */
     char path_storage_directory[PNET_MAX_DIRECTORYPATH_SIZE]; /** Terminated */
@@ -64,8 +62,7 @@ typedef struct app_args
     app_mode_t mode;
 } app_args_t;
 
-typedef enum
-{
+typedef enum {
     RUN_IN_SEPARATE_THREAD,
     RUN_IN_MAIN_THREAD
 } app_run_in_separate_task_t;

@@ -99,8 +99,7 @@ extern "C" {
 
 #define APP_GSDML_DEFAULT_MAUTYPE 0x10 /* Copper 100 Mbit/s Full duplex */
 
-typedef struct app_gsdml_module
-{
+typedef struct app_gsdml_module {
     uint32_t id;
 
     /** Module name */
@@ -110,8 +109,7 @@ typedef struct app_gsdml_module
     uint32_t submodules[];
 } app_gsdml_module_t;
 
-typedef struct app_gsdml_submodule
-{
+typedef struct app_gsdml_submodule {
     uint32_t id;
 
     /** Submodule name */
@@ -127,22 +125,21 @@ typedef struct app_gsdml_submodule
     uint16_t parameters[];
 } app_gsdml_submodule_t;
 
-typedef struct
-{
+typedef struct {
     uint32_t index;
     const char * name;
     uint16_t length;
 } app_gsdml_param_t;
 
-#define APP_GSDML_MOD_ID_32_0_DIGITAL_OUT_1 0x00000001
-#define APP_GSDML_MOD_ID_32_0_DIGITAL_OUT_2 0x00000002
-#define APP_GSDML_MOD_ID_0_8_DIGITAL_IN     0x00000003
-#define APP_GSDML_SUBMOD_ID_DIGITAL_OUT_1   0x00000130
-#define APP_GSDML_SUBMOD_ID_DIGITAL_OUT_2   0x00000131
-#define APP_GSDML_SUBMOD_ID_DIGITAL_IN      0x00000132
-#define APP_GSDML_INPUT_DATA_DIGITAL_SIZE   1 /* bytes */
-#define APP_GSDML_OUTPUT_DATA_DIGITAL_SIZE  4 /* bytes */
-#define APP_GSDML_ALARM_PAYLOAD_SIZE        1 /* bytes */
+#define APP_GSDML_MOD_ID_32_0_DIGITAL_IN_1 0x00000001
+#define APP_GSDML_MOD_ID_32_0_DIGITAL_IN_2 0x00000002
+#define APP_GSDML_MOD_ID_0_8_DIGITAL_OUT   0x00000003
+#define APP_GSDML_SUBMOD_ID_DIGITAL_IN_1   0x00000001
+#define APP_GSDML_SUBMOD_ID_DIGITAL_IN_2   0x00000002
+#define APP_GSDML_SUBMOD_ID_DIGITAL_OUT    0x00000003
+#define APP_GSDML_OUTPUT_DATA_DIGITAL_SIZE 1 /* bytes */
+#define APP_GSDML_INPUT_DATA_DIGITAL_SIZE  4 /* bytes */
+#define APP_GSDML_ALARM_PAYLOAD_SIZE       1 /* bytes */
 
 /**
  * Get module configuration from module ID

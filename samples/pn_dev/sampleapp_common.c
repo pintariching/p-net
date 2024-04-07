@@ -917,8 +917,9 @@ static void app_cyclic_data_callback (app_subslot_t * subslot, void * tag) {
     app_data_t * app = (app_data_t *)tag;
     uint8_t indata_iops = PNET_IOXS_BAD;
     uint8_t indata_iocs = PNET_IOXS_BAD;
-    uint8_t * indata;
+    float * indata;
     uint16_t indata_size = 0;
+    uint8_t indata_buf[4];
     bool outdata_updated;
     uint16_t outdata_length;
     uint8_t outdata_iops;
@@ -979,9 +980,10 @@ static void app_cyclic_data_callback (app_subslot_t * subslot, void * tag) {
             subslot->slot_nbr,
             subslot->subslot_nbr,
             subslot->submodule_id,
-            // app->button1_pressed,
             &indata_size,
             &indata_iops);
+
+        memcpy (indata_buf, indata, sizeof *indata);
 
         /* Send input data to the PLC */
         (void)pnet_input_set_data_and_iops (
@@ -989,7 +991,7 @@ static void app_cyclic_data_callback (app_subslot_t * subslot, void * tag) {
             APP_GSDML_API,
             subslot->slot_nbr,
             subslot->subslot_nbr,
-            indata,
+            indata_buf,
             indata_size,
             indata_iops);
 
@@ -1019,7 +1021,8 @@ static int app_set_initial_data_and_ioxs (app_data_t * app) {
     uint16_t slot;
     uint16_t subslot_index;
     const app_subslot_t * p_subslot;
-    uint8_t * indata;
+    float * indata;
+    uint8_t indata_buf[4];
     uint16_t indata_size;
     uint8_t indata_iops;
 
@@ -1046,9 +1049,11 @@ static int app_set_initial_data_and_ioxs (app_data_t * app) {
                             p_subslot->slot_nbr,
                             p_subslot->subslot_nbr,
                             p_subslot->submodule_id,
-                            // app->button1_pressed,
                             &indata_size,
                             &indata_iops);
+
+                        memcpy (indata_buf, indata, sizeof *indata);
+
                     } else if (p_subslot->slot_nbr == PNET_SLOT_DAP_IDENT) {
                         indata_iops = PNET_IOXS_GOOD;
                     }
@@ -1058,7 +1063,7 @@ static int app_set_initial_data_and_ioxs (app_data_t * app) {
                         app->main_api.api_id,
                         p_subslot->slot_nbr,
                         p_subslot->subslot_nbr,
-                        indata,
+                        indata_buf,
                         indata_size,
                         indata_iops);
 

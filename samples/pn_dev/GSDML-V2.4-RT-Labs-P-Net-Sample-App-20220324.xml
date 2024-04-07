@@ -82,7 +82,7 @@ Replace the tag above with the one below to support shared device.
                     <SoftwareRelease Value="1.0" />
                 </ModuleInfo>
                 <VirtualSubmoduleList>
-                    <VirtualSubmoduleItem ID="IDSM_130" SubmoduleIdentNumber="0x0130" MayIssueProcessAlarm="true">
+                    <VirtualSubmoduleItem ID="IDSM_1" SubmoduleIdentNumber="0x1" MayIssueProcessAlarm="true">
                         <IOData>
                             <Input Consistency="All items consistency">
                                 <DataItem DataType="Float32" TextId="TOK_Output_DataItem_32" />
@@ -103,11 +103,11 @@ Replace the tag above with the one below to support shared device.
                     <SoftwareRelease Value="1.0" />
                 </ModuleInfo>
                 <VirtualSubmoduleList>
-                    <VirtualSubmoduleItem ID="IDSM_131" SubmoduleIdentNumber="0x0131" MayIssueProcessAlarm="true">
+                    <VirtualSubmoduleItem ID="IDSM_2" SubmoduleIdentNumber="0x2" MayIssueProcessAlarm="true">
                         <IOData>
-                            <Output Consistency="All items consistency">
+                            <Input Consistency="All items consistency">
                                 <DataItem DataType="Float32" TextId="TOK_Output_DataItem_32" />
-                            </Output>
+                            </Input>
                         </IOData>
                         <ModuleInfo>
                             <Name TextId="TOK_Name_Module_O32_2" />
@@ -124,11 +124,11 @@ Replace the tag above with the one below to support shared device.
                     <SoftwareRelease Value="1.0" />
                 </ModuleInfo>
                 <VirtualSubmoduleList>
-                    <VirtualSubmoduleItem ID="IDSM_132" SubmoduleIdentNumber="0x0132" MayIssueProcessAlarm="true">
+                    <VirtualSubmoduleItem ID="IDSM_3" SubmoduleIdentNumber="0x3" MayIssueProcessAlarm="true">
                         <IOData>
-                            <Input>
+                            <Output>
                                 <DataItem DataType="Unsigned8" UseAsBits="true" TextId="TOK_Input_DataItem_8" />
-                            </Input>
+                            </Output>
                         </IOData>
                         <ModuleInfo>
                             <Name TextId="TOK_Name_Module_I8" />
@@ -138,17 +138,6 @@ Replace the tag above with the one below to support shared device.
                 </VirtualSubmoduleList>
             </ModuleItem>
         </ModuleList>
-        <LogBookEntryList>
-            <LogBookEntryItem Status="2130510">
-                <!--Custom
-                    log book entry for sample application-->
-                <!--Error
-                    code 0x20  Error decode 0x82  Error code 1 0x4E-->
-                <ErrorCode2Value>
-                    <Name TextId="IDT_CUSTOM_LOGBOOK_1" />
-                </ErrorCode2Value>
-            </LogBookEntryItem>
-        </LogBookEntryList>
         <GraphicsList>
             <GraphicItem ID="RT-LabsStackImage" GraphicFile="GSDML-RT-LABS-STACK" />
         </GraphicsList>
@@ -157,16 +146,12 @@ Replace the tag above with the one below to support shared device.
                 <Text TextId="IDT_INFO_Device" Value="https://github.com/rtlabs-com/p-net" />
                 <Text TextId="IDT_MODULE_NAME_DAP1" Value="P-Net multi-module sample app" />
                 <Text TextId="IDT_INFO_DAP1" Value="Profinet device sample app https://github.com/rtlabs-com/p-net" />
-                <Text TextId="IDT_CUSTOM_DIAG_1" Value="Custom diagnosis in USI format" />
-                <Text TextId="IDT_CUSTOM_DIAG_1_VALUE" Value="Custom diagnosis value" />
-                <Text TextId="IDT_CUSTOM_LOGBOOK_1" Value="Custom Logbook entry" />
                 <Text TextId="IDT_NAME_IS" Value="X1" />
                 <Text TextId="IDT_NAME_PS1" Value="X1 P1" />
-                <Text TextId="IDT_NAME_PS2" Value="X1 P2" />
                 <!--module
                     name-->
-                <Text TextId="TOK_Name_Module_O32_1" Value="DO 32xLogicLevel" />
-                <Text TextId="TOK_Name_Module_O32_2" Value="DO 32xLogicLevel" />
+                <Text TextId="TOK_Name_Module_O32_1" Value="DO Float32 Urica 1" />
+                <Text TextId="TOK_Name_Module_O32_2" Value="DO Float32 Urica 2" />
                 <Text TextId="TOK_Name_Module_I8" Value="DI 8xLogicLevel" />
                 <!--module
                     info -->
