@@ -14,13 +14,8 @@
  ********************************************************************/
 
 #include "app_data.h"
-#include "app_utils.h"
 #include "app_gsdml.h"
-#include "app_log.h"
-#include "sampleapp_common.h"
-#include "osal.h"
 #include "pnal.h"
-#include <pnet_api.h>
 #include "wiringPi.h"
 
 #include <math.h>
@@ -28,6 +23,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <pthread.h>
 
 const int URICA_1_ID = 1;
 const int URICA_1_DATA_PIN = 1;
@@ -46,6 +42,12 @@ const int URICA_2_SET_ZERO_PIN = 8;
 static float urica_1 = 0.;
 static float urica_2 = 0.;
 
+static pthread_mutex_t urica_1_mutex = PTHREAD_MUTEX_INITIALIZER;
+static pthread_mutex_t urica_2_mutex = PTHREAD_MUTEX_INITIALIZER;
+
+static float urica_1_buf = 0.;
+static float urica_2_buf = 0.;
+
 static u_int8_t input[8] = {0};
 
 float * app_data_get_input_data (
@@ -62,13 +64,25 @@ float * app_data_get_input_data (
     if (submodule_id == APP_GSDML_SUBMOD_ID_DIGITAL_IN_1) {
         *size = APP_GSDML_INPUT_DATA_DIGITAL_SIZE;
         *iops = PNET_IOXS_GOOD;
-        return &urica_1;
+
+        if (pthread_mutex_trylock (&urica_1_mutex) == 0) {
+            memcpy (&urica_1, &urica_1_buf, sizeof urica_1);
+            pthread_mutex_unlock (&urica_1_mutex);
+        }
+
+        return &urica_1_buf;
     }
 
     if (submodule_id == APP_GSDML_SUBMOD_ID_DIGITAL_IN_2) {
         *size = APP_GSDML_INPUT_DATA_DIGITAL_SIZE;
         *iops = PNET_IOXS_GOOD;
-        return &urica_2;
+
+        if (pthread_mutex_trylock (&urica_2_mutex) == 0) {
+            memcpy (&urica_2, &urica_2_buf, sizeof urica_2);
+            pthread_mutex_unlock (&urica_2_mutex);
+        }
+
+        return &urica_2_buf;
     }
 
     /* Automated RT Tester scenario 2 - unsupported (sub)module */
@@ -103,12 +117,28 @@ int app_data_set_default_outputs (void) {
     return 0;
 }
 
-void update_urica_state() {
-    urica_1 = meri_urico (URICA_1_ID);
-    urica_2 = meri_urico (URICA_2_ID);
+void * urica_loop() {
+    for (;;) {
+        printf ("Meri urice\n");
+
+        float urica_1_meritev = meri_urico (URICA_1_ID);
+        float urica_2_meritev = meri_urico (URICA_2_ID);
+
+        pthread_mutex_lock (&urica_1_mutex);
+        urica_1 = urica_1_meritev;
+        pthread_mutex_unlock (&urica_1_mutex);
+
+        pthread_mutex_lock (&urica_2_mutex);
+        urica_2 = urica_2_meritev;
+        pthread_mutex_unlock (&urica_2_mutex);
+
+        os_usleep (100000);
+    }
 }
 
-void setup_urica_pins() {
+void setup_urica() {
+    wiringPiSetupGpio();
+
     pinMode (URICA_1_DATA_PIN, INPUT);
     pinMode (URICA_1_CLOCK_PIN, INPUT);
     pinMode (URICA_1_REQUEST_PIN, OUTPUT);
@@ -124,6 +154,9 @@ void setup_urica_pins() {
 
     pullUpDnControl (URICA_2_DATA_PIN, PUD_UP);
     pullUpDnControl (URICA_2_CLOCK_PIN, PUD_UP);
+
+    pthread_t urice;
+    pthread_create (&urice, NULL, &urica_loop, NULL);
 }
 
 float meri_urico (int id) {

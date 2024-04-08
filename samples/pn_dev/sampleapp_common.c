@@ -22,11 +22,11 @@
 #include "osal.h"
 #include "pnal.h"
 #include <pnet_api.h>
-#include "wiringPi.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <pthread.h>
 
 /* Events handled by main task */
 #define APP_EVENT_READY_FOR_DATA BIT (0)
@@ -1161,8 +1161,8 @@ void app_pnet_cfg_init_default (pnet_cfg_t * pnet_cfg) {
 static void app_handle_event_timer (app_data_t * app) {
     os_event_clr (app->main_events, APP_EVENT_TIMER);
 
-    update_urica_state();
-    check_plc_output();
+    // update_urica_state();
+    // check_plc_output();
 
     if (app_is_connected_to_controller (app)) {
         app_handle_cyclic_data (app);
@@ -1293,8 +1293,7 @@ void app_loop_forever (void * arg) {
                     APP_EVENT_ALARM | APP_EVENT_SM_RELEASED | APP_EVENT_ABORT;
     uint32_t flags = 0;
 
-    wiringPiSetupGpio();
-    setup_urica_pins();
+    setup_urica();
 
     app_set_led (APP_DATA_LED_ID, false);
     app_plug_dap (app, app->pnet_cfg->num_physical_ports);
