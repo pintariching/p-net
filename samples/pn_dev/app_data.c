@@ -26,10 +26,10 @@
 #include <pthread.h>
 
 const int URICA_1_ID = 1;
-const int URICA_1_DATA_PIN = 1;
+const int URICA_1_DATA_PIN = 0;
 const int URICA_1_CLOCK_PIN = 2;
 const int URICA_1_REQUEST_PIN = 3;
-const int URICA_1_SET_ZERO_PIN = 4;
+const int URICA_1_SET_ZERO_PIN = 21;
 
 const int URICA_2_ID = 2;
 const int URICA_2_DATA_PIN = 5;
@@ -43,7 +43,7 @@ static float urica_1 = 0.;
 static float urica_2 = 0.;
 
 static pthread_mutex_t urica_1_mutex = PTHREAD_MUTEX_INITIALIZER;
-static pthread_mutex_t urica_2_mutex = PTHREAD_MUTEX_INITIALIZER;
+// static pthread_mutex_t urica_2_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 static float urica_1_buf = 0.;
 static float urica_2_buf = 0.;
@@ -65,10 +65,10 @@ float * app_data_get_input_data (
         *size = APP_GSDML_INPUT_DATA_DIGITAL_SIZE;
         *iops = PNET_IOXS_GOOD;
 
-        if (pthread_mutex_trylock (&urica_1_mutex) == 0) {
-            memcpy (&urica_1, &urica_1_buf, sizeof urica_1);
-            pthread_mutex_unlock (&urica_1_mutex);
-        }
+        // if (pthread_mutex_trylock (&urica_1_mutex) == 0) {
+        memcpy (&urica_1, &urica_1_buf, sizeof urica_1);
+        // pthread_mutex_unlock (&urica_1_mutex);
+        // }
 
         return &urica_1_buf;
     }
@@ -77,10 +77,10 @@ float * app_data_get_input_data (
         *size = APP_GSDML_INPUT_DATA_DIGITAL_SIZE;
         *iops = PNET_IOXS_GOOD;
 
-        if (pthread_mutex_trylock (&urica_2_mutex) == 0) {
-            memcpy (&urica_2, &urica_2_buf, sizeof urica_2);
-            pthread_mutex_unlock (&urica_2_mutex);
-        }
+        // if (pthread_mutex_trylock (&urica_2_mutex) == 0) {
+        memcpy (&urica_2, &urica_2_buf, sizeof urica_2);
+        // pthread_mutex_unlock (&urica_2_mutex);
+        // }
 
         return &urica_2_buf;
     }
@@ -95,7 +95,6 @@ int app_data_set_output_data (
     uint32_t submodule_id,
     uint8_t * data,
     uint16_t size) {
-    // bool led_state;
 
     if (data == NULL) {
         return -1;
@@ -119,25 +118,23 @@ int app_data_set_default_outputs (void) {
 
 void * urica_loop() {
     for (;;) {
-        printf ("Meri urice\n");
-
         float urica_1_meritev = meri_urico (URICA_1_ID);
-        float urica_2_meritev = meri_urico (URICA_2_ID);
+        // float urica_2_meritev = meri_urico (URICA_1_ID);
 
         pthread_mutex_lock (&urica_1_mutex);
         urica_1 = urica_1_meritev;
         pthread_mutex_unlock (&urica_1_mutex);
 
-        pthread_mutex_lock (&urica_2_mutex);
-        urica_2 = urica_2_meritev;
-        pthread_mutex_unlock (&urica_2_mutex);
+        // pthread_mutex_lock (&urica_2_mutex);
+        // urica_2 = urica_2_meritev;
+        // pthread_mutex_unlock (&urica_2_mutex);
 
-        os_usleep (100000);
+        os_usleep (500000);
     }
 }
 
 void setup_urica() {
-    wiringPiSetupGpio();
+    wiringPiSetup();
 
     pinMode (URICA_1_DATA_PIN, INPUT);
     pinMode (URICA_1_CLOCK_PIN, INPUT);
@@ -163,8 +160,10 @@ float meri_urico (int id) {
     int data;
     int clock;
     int request;
-    uint8_t data_buf[13] = {0};
-    float result;
+    unsigned char data_buf[13] = {0};
+    unsigned char nibble;
+    int i;
+    int j;
 
     if (id == URICA_1_ID) {
         data = URICA_1_DATA_PIN;
@@ -180,10 +179,8 @@ float meri_urico (int id) {
 
     digitalWrite (request, HIGH);
 
-    int i;
-    int j;
     for (i = 0; i < 13; i++) {
-        u_int8_t nibble = 0;
+        nibble = 0;
 
         for (j = 0; j < 4; j++) {
             while (digitalRead (clock) == LOW) {
@@ -191,35 +188,39 @@ float meri_urico (int id) {
             while (digitalRead (clock) == HIGH) {
             }
 
-            uint8_t bit = digitalRead (data) & 0b00000001;
+            char bit = digitalRead (data) << 3;
 
-            nibble <<= 1;
+            nibble = nibble >> 1;
             nibble = nibble | bit;
-        }
-
-        if (i == 0) {
-            digitalWrite (request, LOW);
         }
 
         data_buf[i] = nibble;
     }
 
-    uint8_t decimal = data_buf[11];
-    uint16_t value = 0;
+    digitalWrite (request, LOW);
 
-    for (i = 5; i < 11; i++) {
-        value *= 10;
-        value += (uint16_t)data_buf[i];
+    for (i = 0; i < 4; i++) {
+        if (data_buf[i] != 0xF) {
+            return -100.;
+        }
     }
 
-    result = (float)value;
-    result /= powf (result, decimal);
+    float decimal = data_buf[11];
+    float value = 0.;
+
+    for (i = 0; i < 6; i++) {
+        float data_buf_float = data_buf[i + 5];
+        data_buf_float = data_buf_float * powf (10, 5 - i);
+        value = value + data_buf_float;
+    }
+
+    value = value / powf (10, decimal);
 
     if (data_buf[4] == 0x8) {
-        result *= -1.;
+        value *= -1.;
     }
 
-    return result;
+    return value;
 }
 
 void check_plc_output() {

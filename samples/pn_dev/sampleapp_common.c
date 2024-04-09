@@ -87,17 +87,9 @@ typedef struct app_data_t {
     app_demo_state_t alarm_demo_state;
     uint8_t alarm_payload[APP_GSDML_ALARM_PAYLOAD_SIZE];
 
-    // bool button1_pressed;
-    // bool button2_pressed;
-    // bool button2_pressed_previous;
-
     /* Counters used to control when buttons are checked
      * and process data is updated */
-    // uint32_t buttons_tick_counter;
     uint32_t process_data_tick_counter;
-
-    int urica_1[13];
-    int urica_2[13];
 
 } app_data_t;
 
@@ -927,6 +919,8 @@ static void app_cyclic_data_callback (app_subslot_t * subslot, void * tag) {
     uint8_t outdata_iops;
     uint8_t outdata_buf[20]; /* Todo: Remove temporary buffer */
 
+    printf ("!!! HANDLING CYCLIC DATA CALLBACK !!! \n");
+
     if (app == NULL) {
         APP_LOG_ERROR ("Application tag not set in subslot?\n");
         return;
@@ -1161,9 +1155,6 @@ void app_pnet_cfg_init_default (pnet_cfg_t * pnet_cfg) {
 static void app_handle_event_timer (app_data_t * app) {
     os_event_clr (app->main_events, APP_EVENT_TIMER);
 
-    // update_urica_state();
-    // check_plc_output();
-
     if (app_is_connected_to_controller (app)) {
         app_handle_cyclic_data (app);
     }
@@ -1293,7 +1284,7 @@ void app_loop_forever (void * arg) {
                     APP_EVENT_ALARM | APP_EVENT_SM_RELEASED | APP_EVENT_ABORT;
     uint32_t flags = 0;
 
-    setup_urica();
+    // setup_urica();
 
     app_set_led (APP_DATA_LED_ID, false);
     app_plug_dap (app, app->pnet_cfg->num_physical_ports);
