@@ -163,20 +163,26 @@ static const app_gsdml_submodule_t * app_gsdml_submodules[] = {
  */
 // static app_gsdml_param_t app_gsdml_parameters[] = {};
 
-const app_gsdml_module_t * app_gsdml_get_module_cfg (uint32_t id) {
+const app_gsdml_module_t * app_gsdml_get_module_cfg (uint32_t id)
+{
     uint32_t i;
-    for (i = 0; i < NELEMENTS (app_gsdml_modules); i++) {
-        if (app_gsdml_modules[i]->id == id) {
+    for (i = 0; i < NELEMENTS (app_gsdml_modules); i++)
+    {
+        if (app_gsdml_modules[i]->id == id)
+        {
             return app_gsdml_modules[i];
         }
     }
     return NULL;
 }
 
-const app_gsdml_submodule_t * app_gsdml_get_submodule_cfg (uint32_t id) {
+const app_gsdml_submodule_t * app_gsdml_get_submodule_cfg (uint32_t id)
+{
     uint32_t i;
-    for (i = 0; i < NELEMENTS (app_gsdml_submodules); i++) {
-        if (app_gsdml_submodules[i]->id == id) {
+    for (i = 0; i < NELEMENTS (app_gsdml_submodules); i++)
+    {
+        if (app_gsdml_submodules[i]->id == id)
+        {
             return app_gsdml_submodules[i];
         }
     }
@@ -185,7 +191,8 @@ const app_gsdml_submodule_t * app_gsdml_get_submodule_cfg (uint32_t id) {
 
 const app_gsdml_param_t * app_gsdml_get_parameter_cfg (
     uint32_t submodule_id,
-    uint32_t index) {
+    uint32_t index)
+{
 
     return NULL;
 }

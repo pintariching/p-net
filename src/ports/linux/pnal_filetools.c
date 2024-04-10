@@ -33,9 +33,9 @@
 
 bool pnal_does_file_exist (const char * filepath)
 {
-   struct stat statbuffer;
+    struct stat statbuffer;
 
-   return (stat (filepath, &statbuffer) == 0);
+    return (stat (filepath, &statbuffer) == 0);
 }
 
 /**
@@ -51,31 +51,31 @@ bool pnal_does_file_exist (const char * filepath)
  *         -1 if an error occurred.
  */
 static int pnal_get_directory_of_binary (
-   char * tempstring,
-   char * dirpath,
-   size_t size)
+    char * tempstring,
+    char * dirpath,
+    size_t size)
 {
-   ssize_t num_bytes = 0;
-   memset (tempstring, 0, size); /* Path to executable */
-   memset (dirpath, 0, size);
-   char * resulting_directory = NULL;
+    ssize_t num_bytes = 0;
+    memset (tempstring, 0, size); /* Path to executable */
+    memset (dirpath, 0, size);
+    char * resulting_directory = NULL;
 
-   num_bytes = readlink ("/proc/self/exe", tempstring, size);
-   if (num_bytes == -1)
-   {
-      return -1;
-   }
+    num_bytes = readlink ("/proc/self/exe", tempstring, size);
+    if (num_bytes == -1)
+    {
+        return -1;
+    }
 
-   /* Verify that we have the full path (size is big enough) */
-   if (!pnal_does_file_exist (tempstring))
-   {
-      return -1;
-   }
+    /* Verify that we have the full path (size is big enough) */
+    if (!pnal_does_file_exist (tempstring))
+    {
+        return -1;
+    }
 
-   resulting_directory = dirname (tempstring);
-   snprintf (dirpath, size, "%s", resulting_directory);
+    resulting_directory = dirname (tempstring);
+    snprintf (dirpath, size, "%s", resulting_directory);
 
-   return 0;
+    return 0;
 }
 
 /**
@@ -95,131 +95,131 @@ static int pnal_get_directory_of_binary (
  */
 int pnal_create_searchpath (char * path, size_t size)
 {
-   int written = 0;
+    int written = 0;
 
-   /** Should temporarily hold full path. Resulting size is
-    * PNET_MAX_DIRECTORYPATH_SIZE */
-   char
-      directory_of_binary[PNET_MAX_DIRECTORYPATH_SIZE + PNET_MAX_FILENAME_SIZE] =
-         {0};
-   char tempstring[PNET_MAX_DIRECTORYPATH_SIZE + PNET_MAX_FILENAME_SIZE] = {0};
+    /** Should temporarily hold full path. Resulting size is
+     * PNET_MAX_DIRECTORYPATH_SIZE */
+    char directory_of_binary
+        [PNET_MAX_DIRECTORYPATH_SIZE + PNET_MAX_FILENAME_SIZE] = {0};
+    char tempstring[PNET_MAX_DIRECTORYPATH_SIZE + PNET_MAX_FILENAME_SIZE] = {0};
 
-   if (
-      pnal_get_directory_of_binary (
-         tempstring,
-         directory_of_binary,
-         sizeof (directory_of_binary)) != 0)
-   {
-      return -1;
-   }
+    if (pnal_get_directory_of_binary (
+            tempstring,
+            directory_of_binary,
+            sizeof (directory_of_binary)) != 0)
+    {
+        return -1;
+    }
 
-   written = snprintf (
-      path,
-      size,
-      "%s:%s",
-      PNAL_DEFAULT_SEARCHPATH,
-      directory_of_binary);
-   if (written < 0 || (unsigned)written >= size)
-   {
-      return -1;
-   }
+    written = snprintf (
+        path,
+        size,
+        "%s:%s",
+        PNAL_DEFAULT_SEARCHPATH,
+        directory_of_binary);
+    if (written < 0 || (unsigned)written >= size)
+    {
+        return -1;
+    }
 
-   return 0;
+    return 0;
 }
 
 int pnal_execute_script (const char * argv[])
 {
-   /** Terminated string, see pnal_create_searchpath() */
-   char child_searchpath
-      [sizeof (PNAL_DEFAULT_SEARCHPATH) + PNET_MAX_DIRECTORYPATH_SIZE] = {0};
-   int childstatus = 0;
-   pid_t childpid;
-   char * scriptenviron[] = {NULL};
-   int script_returnvalue = 0;
+    /** Terminated string, see pnal_create_searchpath() */
+    char child_searchpath
+        [sizeof (PNAL_DEFAULT_SEARCHPATH) + PNET_MAX_DIRECTORYPATH_SIZE] = {0};
+    int childstatus = 0;
+    pid_t childpid;
+    char * scriptenviron[] = {NULL};
+    int script_returnvalue = 0;
 #if LOG_DEBUG_ENABLED(PF_PNAL_LOG)
-   uint16_t ix;
+    uint16_t ix;
 #endif
 
-   if (argv == NULL)
-   {
-      LOG_ERROR (
-         PF_PNAL_LOG,
-         "PNAL(%d): No argument vector given for running script.\n",
-         __LINE__);
-      return -1;
-   }
-
-   if (argv[0] == NULL)
-   {
-      LOG_ERROR (PF_PNAL_LOG, "PNAL(%d): No script name given.\n", __LINE__);
-      return -1;
-   }
-
-   if (pnal_create_searchpath (child_searchpath, sizeof (child_searchpath)) != 0)
-   {
-      LOG_ERROR (
-         PF_PNAL_LOG,
-         "PNAL(%d): Could not build PATH to run script.\n",
-         __LINE__);
-      return -1;
-   }
-
-#if LOG_DEBUG_ENABLED(PF_PNAL_LOG)
-   printf ("PNAL(%d): Command for script:", __LINE__);
-   for (ix = 0; argv[ix] != NULL; ix++)
-   {
-      if (strlen (argv[ix]) > 0)
-      {
-         printf (" %s", argv[ix]);
-      }
-      else
-      {
-         printf (" ''");
-      }
-   }
-   printf ("\n");
-#endif
-
-   /* Fork and exec */
-   childpid = fork();
-   if (childpid < 0)
-   {
-      LOG_ERROR (
-         PF_PNAL_LOG,
-         "PNAL(%d): Failed to fork the process to run script.\n",
-         __LINE__);
-      return -1;
-   }
-   else if (childpid == 0)
-   {
-      /* We are in the child process */
-
-      /* setenv() will malloc memory. We will not free() it, but it does not
-         matter since we do it in the short-lived child process */
-      if (setenv ("PATH", child_searchpath, 1) != 0)
-      {
-         printf (
-            "PNAL(%d): Failed to set PATH in child process to run script.\n",
+    if (argv == NULL)
+    {
+        LOG_ERROR (
+            PF_PNAL_LOG,
+            "PNAL(%d): No argument vector given for running script.\n",
             __LINE__);
-         exit (EXIT_FAILURE);
-      }
+        return -1;
+    }
 
-      execvpe (argv[0], (char * const *)argv, scriptenviron);
+    if (argv[0] == NULL)
+    {
+        LOG_ERROR (PF_PNAL_LOG, "PNAL(%d): No script name given.\n", __LINE__);
+        return -1;
+    }
 
-      printf (
-         "PNAL(%d): Failed to execute in child process. Is the script file "
-         "missing or lacks execution permission? %s Search path %s\n",
-         __LINE__,
-         argv[0],
-         child_searchpath);
-      exit (EXIT_FAILURE);
-   }
-   else
-   {
-      /* We are in the parent (original) process */
-      wait (&childstatus);
-      script_returnvalue = WEXITSTATUS (childstatus);
-   }
+    if (pnal_create_searchpath (child_searchpath, sizeof (child_searchpath)) !=
+        0)
+    {
+        LOG_ERROR (
+            PF_PNAL_LOG,
+            "PNAL(%d): Could not build PATH to run script.\n",
+            __LINE__);
+        return -1;
+    }
 
-   return (script_returnvalue == 0) ? 0 : -1;
+#if LOG_DEBUG_ENABLED(PF_PNAL_LOG)
+    printf ("PNAL(%d): Command for script:", __LINE__);
+    for (ix = 0; argv[ix] != NULL; ix++)
+    {
+        if (strlen (argv[ix]) > 0)
+        {
+            printf (" %s", argv[ix]);
+        }
+        else
+        {
+            printf (" ''");
+        }
+    }
+    printf ("\n");
+#endif
+
+    /* Fork and exec */
+    childpid = fork();
+    if (childpid < 0)
+    {
+        LOG_ERROR (
+            PF_PNAL_LOG,
+            "PNAL(%d): Failed to fork the process to run script.\n",
+            __LINE__);
+        return -1;
+    }
+    else if (childpid == 0)
+    {
+        /* We are in the child process */
+
+        /* setenv() will malloc memory. We will not free() it, but it does not
+           matter since we do it in the short-lived child process */
+        if (setenv ("PATH", child_searchpath, 1) != 0)
+        {
+            printf (
+                "PNAL(%d): Failed to set PATH in child process to run "
+                "script.\n",
+                __LINE__);
+            exit (EXIT_FAILURE);
+        }
+
+        execvpe (argv[0], (char * const *)argv, scriptenviron);
+
+        printf (
+            "PNAL(%d): Failed to execute in child process. Is the script file "
+            "missing or lacks execution permission? %s Search path %s\n",
+            __LINE__,
+            argv[0],
+            child_searchpath);
+        exit (EXIT_FAILURE);
+    }
+    else
+    {
+        /* We are in the parent (original) process */
+        wait (&childstatus);
+        script_returnvalue = WEXITSTATUS (childstatus);
+    }
+
+    return (script_returnvalue == 0) ? 0 : -1;
 }

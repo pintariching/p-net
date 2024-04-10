@@ -58,7 +58,8 @@ app_args_t app_args = {0};
 
 /************************* Utilities ******************************************/
 
-void show_usage() {
+void show_usage()
+{
     printf ("\nSample application for p-net Profinet device stack.\n");
     printf ("\n");
     printf ("Wait for connection from IO-controller.\n");
@@ -130,13 +131,16 @@ void show_usage() {
  * @param argv      In: Arguments
  * @return Parsed arguments
  */
-app_args_t parse_commandline_arguments (int argc, char * argv[]) {
+app_args_t parse_commandline_arguments (int argc, char * argv[])
+{
     app_args_t output_arguments = {0};
     int option;
 
     /* Special handling of long argument */
-    if (argc > 1) {
-        if (strcmp (argv[1], "--help") == 0) {
+    if (argc > 1)
+    {
+        if (strcmp (argv[1], "--help") == 0)
+        {
             show_usage();
             exit (EXIT_FAILURE);
         }
@@ -153,8 +157,10 @@ app_args_t parse_commandline_arguments (int argc, char * argv[]) {
     output_arguments.remove_files = false;
     output_arguments.mode = MODE_HW_OFFLOAD_NONE;
 
-    while ((option = getopt (argc, argv, "hvgfri:s:b:d:p:m:")) != -1) {
-        switch (option) {
+    while ((option = getopt (argc, argv, "hvgfri:s:b:d:p:m:")) != -1)
+    {
+        switch (option)
+        {
         case 'v':
             output_arguments.verbosity++;
             break;
@@ -169,7 +175,8 @@ app_args_t parse_commandline_arguments (int argc, char * argv[]) {
             break;
         case 'i':
             if ((strlen (optarg) + 1) >
-                sizeof (output_arguments.eth_interfaces)) {
+                sizeof (output_arguments.eth_interfaces))
+            {
                 printf ("Error: The argument to -i is too long.\n");
                 exit (EXIT_FAILURE);
             }
@@ -179,7 +186,8 @@ app_args_t parse_commandline_arguments (int argc, char * argv[]) {
             strcpy (output_arguments.station_name, optarg);
             break;
         case 'p':
-            if (strlen (optarg) + 1 > PNET_MAX_FILE_FULLPATH_SIZE) {
+            if (strlen (optarg) + 1 > PNET_MAX_FILE_FULLPATH_SIZE)
+            {
                 printf ("Error: The argument to -p is too long.\n");
                 exit (EXIT_FAILURE);
             }
@@ -187,13 +195,20 @@ app_args_t parse_commandline_arguments (int argc, char * argv[]) {
             break;
 #if PNET_OPTION_DRIVER_ENABLE
         case 'm':
-            if (strcmp ("none", optarg) == 0) {
+            if (strcmp ("none", optarg) == 0)
+            {
                 output_arguments.mode = MODE_HW_OFFLOAD_NONE;
-            } else if (strcmp ("cpu", optarg) == 0) {
+            }
+            else if (strcmp ("cpu", optarg) == 0)
+            {
                 output_arguments.mode = MODE_HW_OFFLOAD_CPU;
-            } else if (strcmp ("full", optarg) == 0) {
+            }
+            else if (strcmp ("full", optarg) == 0)
+            {
                 output_arguments.mode = MODE_HW_OFFLOAD_FULL;
-            } else {
+            }
+            else
+            {
                 printf ("Error: mode (-m) not supported.\n");
                 exit (EXIT_FAILURE);
             }
@@ -210,10 +225,12 @@ app_args_t parse_commandline_arguments (int argc, char * argv[]) {
     }
 
     /* Use current directory for storage, if not given */
-    if (strlen (output_arguments.path_storage_directory) == 0) {
+    if (strlen (output_arguments.path_storage_directory) == 0)
+    {
         if (getcwd (
                 output_arguments.path_storage_directory,
-                sizeof (output_arguments.path_storage_directory)) == NULL) {
+                sizeof (output_arguments.path_storage_directory)) == NULL)
+        {
             printf ("Error: Could not read current working directory. Is "
                     "PNET_MAX_DIRECTORYPATH_SIZE too small?\n");
             exit (EXIT_FAILURE);
@@ -229,13 +246,15 @@ app_args_t parse_commandline_arguments (int argc, char * argv[]) {
  * @param filepath      In: Path to file
  * @return true if file exists and the first character is '1'
  */
-bool read_bool_from_file (const char * filepath) {
+bool read_bool_from_file (const char * filepath)
+{
     FILE * fp;
     char ch;
     int eof_indicator;
 
     fp = fopen (filepath, "r");
-    if (fp == NULL) {
+    if (fp == NULL)
+    {
         return false;
     }
 
@@ -243,7 +262,8 @@ bool read_bool_from_file (const char * filepath) {
     eof_indicator = feof (fp);
     fclose (fp);
 
-    if (eof_indicator) {
+    if (eof_indicator)
+    {
         return false;
     }
     return ch == '1';
@@ -258,15 +278,18 @@ bool read_bool_from_file (const char * filepath) {
  */
 static int app_pnet_cfg_init_storage (
     pnet_cfg_t * p_cfg,
-    const app_args_t * p_args) {
+    const app_args_t * p_args)
+{
     strcpy (p_cfg->file_directory, p_args->path_storage_directory);
 
-    if (p_args->verbosity > 0) {
+    if (p_args->verbosity > 0)
+    {
         printf ("Storage directory:    %s\n\n", p_cfg->file_directory);
     }
 
     /* Validate paths */
-    if (!pnal_does_file_exist (p_cfg->file_directory)) {
+    if (!pnal_does_file_exist (p_cfg->file_directory))
+    {
         printf (
             "Error: The given storage directory does not exist: %s\n",
             p_cfg->file_directory);
@@ -278,7 +301,8 @@ static int app_pnet_cfg_init_storage (
 
 /****************************** Main ******************************************/
 
-int main (int argc, char * argv[]) {
+int main (int argc, char * argv[])
+{
     int ret;
     int32_t app_log_level = APP_LOG_LEVEL_FATAL;
     pnet_cfg_t pnet_cfg = {0};
@@ -319,7 +343,8 @@ int main (int argc, char * argv[]) {
         &netif_name_list,
         &number_of_ports,
         &netif_cfg);
-    if (ret != 0) {
+    if (ret != 0)
+    {
         exit (EXIT_FAILURE);
     }
     pnet_cfg.if_cfg = netif_cfg;
@@ -337,14 +362,16 @@ int main (int argc, char * argv[]) {
         APP_BG_WORKER_THREAD_STACKSIZE;
 
     ret = app_pnet_cfg_init_storage (&pnet_cfg, &app_args);
-    if (ret != 0) {
+    if (ret != 0)
+    {
         printf ("Failed to initialize storage.\n");
         printf ("Aborting application\n");
         exit (EXIT_FAILURE);
     }
 
     /* Remove files and exit */
-    if (app_args.remove_files == true) {
+    if (app_args.remove_files == true)
+    {
         printf ("\nRemoving stored files\n");
         printf ("Exit application\n");
         (void)pnet_remove_data_files (pnet_cfg.file_directory);
@@ -353,7 +380,8 @@ int main (int argc, char * argv[]) {
 
     /* Initialise stack and application */
     sample_app = app_init (&pnet_cfg, &app_args);
-    if (sample_app == NULL) {
+    if (sample_app == NULL)
+    {
         printf ("Failed to initialize P-Net.\n");
         printf ("Do you have enough Ethernet interface permission?\n");
         printf ("Aborting application\n");
@@ -361,7 +389,8 @@ int main (int argc, char * argv[]) {
     }
 
     /* Do factory reset and exit */
-    if (app_args.factory_reset == true) {
+    if (app_args.factory_reset == true)
+    {
         printf ("\nPerforming factory reset\n");
         printf ("Exit application\n");
         (void)pnet_factory_reset (app_get_pnet_instance (sample_app));
@@ -369,11 +398,13 @@ int main (int argc, char * argv[]) {
     }
 
     /* Show stack info and exit */
-    if (app_args.show > 0) {
+    if (app_args.show > 0)
+    {
         int level = 0xFFFF;
 
         printf ("\nShowing stack information.\n\n");
-        if (app_args.show == 1) {
+        if (app_args.show == 1)
+        {
             level = 0x2010; /* See documentation for pnet_show() */
         }
 
@@ -383,13 +414,15 @@ int main (int argc, char * argv[]) {
     }
 
     /* Start main loop */
-    if (app_start (sample_app, RUN_IN_SEPARATE_THREAD) != 0) {
+    if (app_start (sample_app, RUN_IN_SEPARATE_THREAD) != 0)
+    {
         printf ("Failed to start\n");
         printf ("Aborting application\n");
         exit (EXIT_FAILURE);
     }
 
-    for (;;) {
+    for (;;)
+    {
         os_usleep (APP_MAIN_SLEEPTIME_US);
     }
 

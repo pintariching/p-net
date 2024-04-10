@@ -8,7 +8,7 @@ AllowShortFunctionsOnASingleLine: None
 AllowShortIfStatementsOnASingleLine: Never
 BinPackArguments: false
 BinPackParameters: false
-BreakBeforeBraces: Attach
+BreakBeforeBraces: Custom
 BraceWrapping:
   AfterCaseLabel: true
   AfterClass: true

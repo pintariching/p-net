@@ -89,7 +89,8 @@ extern "C" {
 
 #define APP_GSDML_DEFAULT_MAUTYPE 0x10 /* Copper 100 Mbit/s Full duplex */
 
-typedef struct app_gsdml_module {
+typedef struct app_gsdml_module
+{
     uint32_t id;
 
     /** Module name */
@@ -99,7 +100,8 @@ typedef struct app_gsdml_module {
     uint32_t submodules[];
 } app_gsdml_module_t;
 
-typedef struct app_gsdml_submodule {
+typedef struct app_gsdml_submodule
+{
     uint32_t id;
 
     /** Submodule name */
@@ -115,7 +117,8 @@ typedef struct app_gsdml_submodule {
     uint16_t parameters[];
 } app_gsdml_submodule_t;
 
-typedef struct {
+typedef struct
+{
     uint32_t index;
     const char * name;
     uint16_t length;

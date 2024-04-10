@@ -22,31 +22,31 @@ static int32_t log_level = APP_DEFAULT_LOG_LEVEL;
 
 void app_log_set_log_level (int32_t level)
 {
-   log_level = level;
+    log_level = level;
 }
 
 void app_log (int32_t level, const char * fmt, ...)
 {
-   va_list list;
+    va_list list;
 
-   if (level >= log_level)
-   {
-      va_start (list, fmt);
-      vprintf (fmt, list);
-      va_end (list);
-      fflush (stdout);
-   }
+    if (level >= log_level)
+    {
+        va_start (list, fmt);
+        vprintf (fmt, list);
+        va_end (list);
+        fflush (stdout);
+    }
 }
 
 void app_log_print_bytes (int32_t level, const uint8_t * bytes, uint32_t len)
 {
-   if (level >= log_level)
-   {
-      printf ("  Bytes: ");
-      for (uint32_t i = 0; i < len; i++)
-      {
-         printf ("%02X ", bytes[i]);
-      }
-      printf ("\n");
-   }
+    if (level >= log_level)
+    {
+        printf ("  Bytes: ");
+        for (uint32_t i = 0; i < len; i++)
+        {
+            printf ("%02X ", bytes[i]);
+        }
+        printf ("\n");
+    }
 }

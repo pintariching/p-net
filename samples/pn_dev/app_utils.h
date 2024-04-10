@@ -38,12 +38,12 @@ extern "C" {
 
 typedef struct app_utils_netif_name
 {
-   char name[PNET_INTERFACE_NAME_MAX_SIZE];
+    char name[PNET_INTERFACE_NAME_MAX_SIZE];
 } app_utils_netif_name_t;
 
 typedef struct app_utils_netif_namelist
 {
-   app_utils_netif_name_t netif[PNET_MAX_PHYSICAL_PORTS + 1];
+    app_utils_netif_name_t netif[PNET_MAX_PHYSICAL_PORTS + 1];
 } app_utils_netif_namelist_t;
 
 /* Forward declaration */
@@ -73,27 +73,27 @@ typedef void (*app_utils_cyclic_callback) (app_subslot_t * subslot, void * tag);
  */
 typedef struct app_subslot
 {
-   /** True when the position in the subslot array is occupied */
-   bool used;
+    /** True when the position in the subslot array is occupied */
+    bool used;
 
-   /** True when the subslot is plugged */
-   bool plugged;
+    /** True when the subslot is plugged */
+    bool plugged;
 
-   uint16_t slot_nbr;
-   uint16_t subslot_nbr;
-   uint32_t submodule_id;
-   const char * submodule_name;
-   pnet_data_cfg_t data_cfg;
+    uint16_t slot_nbr;
+    uint16_t subslot_nbr;
+    uint32_t submodule_id;
+    const char * submodule_name;
+    pnet_data_cfg_t data_cfg;
 
-   /** Status indicator from PLC */
-   uint8_t indata_iocs;
+    /** Status indicator from PLC */
+    uint8_t indata_ iocs;
 
-   /** Status indicator from PLC */
-   uint8_t outdata_iops;
+    /** Status indicator from PLC */
+    uint8_t outdata_iops;
 
-   /** Callback for cyclic input- or output data, or NULL if not implemented */
-   app_utils_cyclic_callback cyclic_callback;
-   void * tag;
+    /** Callback for cyclic input- or output data, or NULL if not implemented */
+    app_utils_cyclic_callback cyclic_callback;
+    void * tag;
 } app_subslot_t;
 
 /**
@@ -102,13 +102,13 @@ typedef struct app_subslot
  */
 typedef struct app_slot
 {
-   bool plugged;
-   uint32_t module_id;
-   const char * name; /** Module name */
+    bool plugged;
+    uint32_t module_id;
+    const char * name; /** Module name */
 
-   /** Subslots. Use a separate index, as the subslot number might be large.
-    *  For example the subslot for DAP port 1 has number 0x8001 */
-   app_subslot_t subslots[PNET_MAX_SUBSLOTS];
+    /** Subslots. Use a separate index, as the subslot number might be large.
+     *  For example the subslot for DAP port 1 has number 0x8001 */
+    app_subslot_t subslots[PNET_MAX_SUBSLOTS];
 } app_slot_t;
 
 /**
@@ -116,8 +116,8 @@ typedef struct app_slot
  */
 typedef struct app_ar
 {
-   uint32_t arep;
-   uint32_t events;
+    uint32_t arep;
+    uint32_t events;
 } app_ar_t;
 
 /**
@@ -125,9 +125,9 @@ typedef struct app_ar
  */
 typedef struct app_ar_iterator
 {
-   app_ar_t *ar;
-   int16_t index;
-   bool modified;
+    app_ar_t * ar;
+    int16_t index;
+    bool modified;
 } app_ar_iterator_t;
 
 /**
@@ -137,16 +137,16 @@ typedef struct app_ar_iterator
  */
 typedef struct app_api_t
 {
-   uint32_t api_id;
+    uint32_t api_id;
 
-   /**
-    * Active AR:s.
-    * A list which is terminated by an entry with arep == UINT32_MAX.
-    */
-   app_ar_t ar[PNET_MAX_AR];
+    /**
+     * Active AR:s.
+     * A list which is terminated by an entry with arep == UINT32_MAX.
+     */
+    app_ar_t ar[PNET_MAX_AR];
 
-   /** Slots. Use slot number as index */
-   app_slot_t slots[PNET_MAX_SLOTS];
+    /** Slots. Use slot number as index */
+    app_slot_t slots[PNET_MAX_SLOTS];
 } app_api_t;
 
 /**
@@ -188,9 +188,7 @@ void app_ar_event_set (app_ar_t * ar, uint32_t event);
  * @param iterator         InOut: The iterator to be initialized.
  * @param api              In:    The \a app_api_t instance.
  */
-void app_ar_iterator_init (
-   app_ar_iterator_t * iterator,
-   app_api_t * api);
+void app_ar_iterator_init (app_ar_iterator_t * iterator, app_api_t * api);
 
 /**
  * Get the next AR from a list iterator.
@@ -257,10 +255,10 @@ void app_utils_mac_to_string (pnet_ethaddr_t mac, char * outputstring);
  * @param err_code_str   Out:   The error code string
  */
 void app_utils_get_error_code_strings (
-   uint16_t err_cls,
-   uint16_t err_code,
-   const char ** err_cls_str,
-   const char ** err_code_str);
+    uint16_t err_cls,
+    uint16_t err_code,
+    const char ** err_cls_str,
+    const char ** err_code_str);
 
 /**
  * Copy an IP address (as an integer) to a struct
@@ -268,8 +266,8 @@ void app_utils_get_error_code_strings (
  * @param ip                  In:    IP address
  */
 void app_utils_copy_ip_to_struct (
-   pnet_cfg_ip_addr_t * destination_struct,
-   pnal_ipaddr_t ip);
+    pnet_cfg_ip_addr_t * destination_struct,
+    pnal_ipaddr_t ip);
 
 /**
  * Return a string representation of
@@ -278,7 +276,7 @@ void app_utils_copy_ip_to_struct (
  * @return  A string representing the command
  */
 const char * app_utils_dcontrol_cmd_to_string (
-   pnet_control_command_t control_command);
+    pnet_control_command_t control_command);
 
 /**
  * Return a string representation of the given event.
@@ -301,10 +299,10 @@ const char * app_utils_event_to_string (pnet_event_values_t event);
  * @return 0 on success, -1 on error
  */
 int app_utils_pnet_cfg_init_netifs (
-   const char * netif_list_str,
-   app_utils_netif_namelist_t * if_list,
-   uint16_t * number_of_ports,
-   pnet_if_cfg_t * if_cfg);
+    const char * netif_list_str,
+    app_utils_netif_namelist_t * if_list,
+    uint16_t * number_of_ports,
+    pnet_if_cfg_t * if_cfg);
 
 /**
  * Parse a comma separated list of network interfaces and check
@@ -335,10 +333,10 @@ int app_utils_pnet_cfg_init_netifs (
  *         -1  on error
  */
 int app_utils_get_netif_namelist (
-   const char * arg_str,
-   uint16_t max_port,
-   app_utils_netif_namelist_t * p_if_list,
-   uint16_t * p_num_ports);
+    const char * arg_str,
+    uint16_t max_port,
+    app_utils_netif_namelist_t * p_if_list,
+    uint16_t * p_num_ports);
 
 /**
  * Print network configuration using APP_LOG_INFO().
@@ -347,8 +345,8 @@ int app_utils_get_netif_namelist (
  * @param number_of_ports  In:   Number of used ports
  */
 void app_utils_print_network_config (
-   pnet_if_cfg_t * if_cfg,
-   uint16_t number_of_ports);
+    pnet_if_cfg_t * if_cfg,
+    uint16_t number_of_ports);
 
 /**
  * Print message if IOXS has changed.
@@ -361,10 +359,10 @@ void app_utils_print_network_config (
  * @param ioxs_new         In: New status
  */
 void app_utils_print_ioxs_change (
-   const app_subslot_t * subslot,
-   const char * ioxs_str,
-   uint8_t ioxs_current,
-   uint8_t ioxs_new);
+    const app_subslot_t * subslot,
+    const char * ioxs_str,
+    uint8_t ioxs_current,
+    uint8_t ioxs_new);
 
 /**
  * Init the p-net configuration to default values.
@@ -396,10 +394,10 @@ int app_utils_pnet_cfg_init_default (pnet_cfg_t * pnet_cfg);
  * @return 0 on success, -1 on error
  */
 int app_utils_plug_module (
-   app_api_t * p_api,
-   uint16_t slot_nbr,
-   uint32_t id,
-   const char * name);
+    app_api_t * p_api,
+    uint16_t slot_nbr,
+    uint32_t id,
+    const char * name);
 
 /**
  * Pull any application module in given slot.
@@ -435,14 +433,14 @@ int app_utils_pull_module (app_api_t * p_api, uint16_t slot_nbr);
  *         never happen if application is aligned with p-net state.
  */
 app_subslot_t * app_utils_plug_submodule (
-   app_api_t * p_api,
-   uint16_t slot_nbr,
-   uint16_t subslot_nbr,
-   uint32_t submodule_id,
-   const pnet_data_cfg_t * p_data_cfg,
-   const char * submodule_name,
-   app_utils_cyclic_callback cyclic_callback,
-   void * tag);
+    app_api_t * p_api,
+    uint16_t slot_nbr,
+    uint16_t subslot_nbr,
+    uint32_t submodule_id,
+    const pnet_data_cfg_t * p_data_cfg,
+    const char * submodule_name,
+    app_utils_cyclic_callback cyclic_callback,
+    void * tag);
 
 /**
  * Unplug any application submodule from given subslot.
@@ -456,9 +454,9 @@ app_subslot_t * app_utils_plug_submodule (
  * @return 0 on success, -1 on error.
  */
 int app_utils_pull_submodule (
-   app_api_t * p_api,
-   uint16_t slot_nbr,
-   uint16_t subslot_nbr);
+    app_api_t * p_api,
+    uint16_t slot_nbr,
+    uint16_t subslot_nbr);
 
 /**
  * Trigger data callback for all plugged submodules in all slots.
@@ -479,9 +477,9 @@ void app_utils_cyclic_data_poll (app_api_t * p_api);
  *         NULL if subslot is not found/plugged.
  */
 app_subslot_t * app_utils_subslot_get (
-   app_api_t * p_api,
-   uint16_t slot_nbr,
-   uint16_t subslot_nbr);
+    app_api_t * p_api,
+    uint16_t slot_nbr,
+    uint16_t subslot_nbr);
 
 /**
  * Return true if subslot is input.

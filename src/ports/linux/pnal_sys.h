@@ -28,8 +28,8 @@ extern "C" {
 
 typedef struct os_buf
 {
-   void * payload;
-   uint16_t len;
+    void * payload;
+    uint16_t len;
 } pnal_buf_t;
 
 #ifdef __cplusplus

@@ -55,13 +55,16 @@ float * app_data_get_input_data (
     uint16_t subslot_nbr,
     uint32_t submodule_id,
     uint16_t * size,
-    uint8_t * iops) {
+    uint8_t * iops)
+{
 
-    if (size == NULL || iops == NULL) {
+    if (size == NULL || iops == NULL)
+    {
         return NULL;
     }
 
-    if (submodule_id == APP_GSDML_SUBMOD_ID_DIGITAL_IN_1) {
+    if (submodule_id == APP_GSDML_SUBMOD_ID_DIGITAL_IN_1)
+    {
         *size = APP_GSDML_INPUT_DATA_DIGITAL_SIZE;
         *iops = PNET_IOXS_GOOD;
 
@@ -73,7 +76,8 @@ float * app_data_get_input_data (
         return &urica_1_buf;
     }
 
-    if (submodule_id == APP_GSDML_SUBMOD_ID_DIGITAL_IN_2) {
+    if (submodule_id == APP_GSDML_SUBMOD_ID_DIGITAL_IN_2)
+    {
         *size = APP_GSDML_INPUT_DATA_DIGITAL_SIZE;
         *iops = PNET_IOXS_GOOD;
 
@@ -94,14 +98,18 @@ int app_data_set_output_data (
     uint16_t subslot_nbr,
     uint32_t submodule_id,
     uint8_t * data,
-    uint16_t size) {
+    uint16_t size)
+{
 
-    if (data == NULL) {
+    if (data == NULL)
+    {
         return -1;
     }
 
-    if (submodule_id == APP_GSDML_SUBMOD_ID_DIGITAL_OUT) {
-        if (size == APP_GSDML_OUTPUT_DATA_DIGITAL_SIZE) {
+    if (submodule_id == APP_GSDML_SUBMOD_ID_DIGITAL_OUT)
+    {
+        if (size == APP_GSDML_OUTPUT_DATA_DIGITAL_SIZE)
+        {
             memcpy (input, data, size);
             return 0;
         }
@@ -110,14 +118,17 @@ int app_data_set_output_data (
     return -1;
 }
 
-int app_data_set_default_outputs (void) {
+int app_data_set_default_outputs (void)
+{
     memset (input, 0, 8);
 
     return 0;
 }
 
-void * urica_loop() {
-    for (;;) {
+void * urica_loop()
+{
+    for (;;)
+    {
         float urica_1_meritev = meri_urico (URICA_1_ID);
         // float urica_2_meritev = meri_urico (URICA_1_ID);
 
@@ -133,7 +144,8 @@ void * urica_loop() {
     }
 }
 
-void setup_urica() {
+void setup_urica()
+{
     wiringPiSetup();
 
     pinMode (URICA_1_DATA_PIN, INPUT);
@@ -156,7 +168,8 @@ void setup_urica() {
     pthread_create (&urice, NULL, &urica_loop, NULL);
 }
 
-float meri_urico (int id) {
+float meri_urico (int id)
+{
     int data;
     int clock;
     int request;
@@ -165,27 +178,36 @@ float meri_urico (int id) {
     int i;
     int j;
 
-    if (id == URICA_1_ID) {
+    if (id == URICA_1_ID)
+    {
         data = URICA_1_DATA_PIN;
         clock = URICA_1_CLOCK_PIN;
         request = URICA_1_REQUEST_PIN;
-    } else if (id == URICA_2_ID) {
+    }
+    else if (id == URICA_2_ID)
+    {
         data = URICA_2_DATA_PIN;
         clock = URICA_2_CLOCK_PIN;
         request = URICA_2_REQUEST_PIN;
-    } else {
+    }
+    else
+    {
         return 0.;
     }
 
     digitalWrite (request, HIGH);
 
-    for (i = 0; i < 13; i++) {
+    for (i = 0; i < 13; i++)
+    {
         nibble = 0;
 
-        for (j = 0; j < 4; j++) {
-            while (digitalRead (clock) == LOW) {
+        for (j = 0; j < 4; j++)
+        {
+            while (digitalRead (clock) == LOW)
+            {
             }
-            while (digitalRead (clock) == HIGH) {
+            while (digitalRead (clock) == HIGH)
+            {
             }
 
             char bit = digitalRead (data) << 3;
@@ -199,8 +221,10 @@ float meri_urico (int id) {
 
     digitalWrite (request, LOW);
 
-    for (i = 0; i < 4; i++) {
-        if (data_buf[i] != 0xF) {
+    for (i = 0; i < 4; i++)
+    {
+        if (data_buf[i] != 0xF)
+        {
             return -100.;
         }
     }
@@ -208,7 +232,8 @@ float meri_urico (int id) {
     float decimal = data_buf[11];
     float value = 0.;
 
-    for (i = 0; i < 6; i++) {
+    for (i = 0; i < 6; i++)
+    {
         float data_buf_float = data_buf[i + 5];
         data_buf_float = data_buf_float * powf (10, 5 - i);
         value = value + data_buf_float;
@@ -216,12 +241,14 @@ float meri_urico (int id) {
 
     value = value / powf (10, decimal);
 
-    if (data_buf[4] == 0x8) {
+    if (data_buf[4] == 0x8)
+    {
         value *= -1.;
     }
 
     return value;
 }
 
-void check_plc_output() {
+void check_plc_output()
+{
 }

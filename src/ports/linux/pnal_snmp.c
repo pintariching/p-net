@@ -37,45 +37,45 @@
 
 static void pnal_snmp_thread (void * arg)
 {
-   struct pnet * pnet = arg;
+    struct pnet * pnet = arg;
 
-   snmp_disable_log();
+    snmp_disable_log();
 
-   /* make us an agentx client. */
-   netsnmp_enable_subagent();
+    /* make us an agentx client. */
+    netsnmp_enable_subagent();
 
-   /* initialize the agent library */
-   init_agent ("lldpMIB");
+    /* initialize the agent library */
+    init_agent ("lldpMIB");
 
-   /* init mib code */
-   init_system_mib (pnet);
-   init_lldpLocalSystemData (pnet);
-   init_lldpLocPortTable (pnet);
-   init_lldpConfigManAddrTable (pnet);
-   init_lldpLocManAddrTable (pnet);
-   init_lldpRemManAddrTable (pnet);
-   init_lldpRemTable (pnet);
-   init_lldpXdot3LocPortTable (pnet);
-   init_lldpXdot3RemPortTable (pnet);
-   init_lldpXPnoLocTable (pnet);
-   init_lldpXPnoRemTable (pnet);
+    /* init mib code */
+    init_system_mib (pnet);
+    init_lldpLocalSystemData (pnet);
+    init_lldpLocPortTable (pnet);
+    init_lldpConfigManAddrTable (pnet);
+    init_lldpLocManAddrTable (pnet);
+    init_lldpRemManAddrTable (pnet);
+    init_lldpRemTable (pnet);
+    init_lldpXdot3LocPortTable (pnet);
+    init_lldpXdot3RemPortTable (pnet);
+    init_lldpXPnoLocTable (pnet);
+    init_lldpXPnoRemTable (pnet);
 
-   /* read lldpMIB.conf files. */
-   init_snmp ("lldpMIB");
+    /* read lldpMIB.conf files. */
+    init_snmp ("lldpMIB");
 
-   for (;;)
-   {
-      agent_check_and_process (1); /* 0 == don't block */
-   }
+    for (;;)
+    {
+        agent_check_and_process (1); /* 0 == don't block */
+    }
 }
 
 int pnal_snmp_init (struct pnet * pnet, const pnal_cfg_t * pnal_cfg)
 {
-   os_thread_create (
-      "pn_snmp",
-      pnal_cfg->snmp_thread.prio,
-      pnal_cfg->snmp_thread.stack_size,
-      pnal_snmp_thread,
-      pnet);
-   return 0;
+    os_thread_create (
+        "pn_snmp",
+        pnal_cfg->snmp_thread.prio,
+        pnal_cfg->snmp_thread.stack_size,
+        pnal_snmp_thread,
+        pnet);
+    return 0;
 }
