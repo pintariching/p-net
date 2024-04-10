@@ -86,7 +86,7 @@ typedef struct app_subslot
     pnet_data_cfg_t data_cfg;
 
     /** Status indicator from PLC */
-    uint8_t indata_ iocs;
+    uint8_t indata_iocs;
 
     /** Status indicator from PLC */
     uint8_t outdata_iops;

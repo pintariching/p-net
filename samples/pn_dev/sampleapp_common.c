@@ -944,8 +944,6 @@ static void app_cyclic_data_callback (app_subslot_t * subslot, void * tag)
     uint8_t outdata_iops;
     uint8_t outdata_buf[20]; /* Todo: Remove temporary buffer */
 
-    printf ("!!! HANDLING CYCLIC DATA CALLBACK !!! \n");
-
     if (app == NULL)
     {
         APP_LOG_ERROR ("Application tag not set in subslot?\n");
