@@ -35,40 +35,6 @@
 #define APP_EVENT_SM_RELEASED    BIT (3)
 #define APP_EVENT_ABORT          BIT (15)
 
-/* Defines used for alarm demo functionality */
-#define CHANNEL_ERRORTYPE_SHORT_CIRCUIT                       0x0001
-#define CHANNEL_ERRORTYPE_LINE_BREAK                          0x0006
-#define CHANNEL_ERRORTYPE_DATA_TRANSMISSION_IMPOSSIBLE        0x8000
-#define CHANNEL_ERRORTYPE_NETWORK_COMPONENT_FUNCTION_MISMATCH 0x8008
-#define EXTENDED_CHANNEL_ERRORTYPE_FRAME_DROPPED              0x8000
-#define EXTENDED_CHANNEL_ERRORTYPE_MAUTYPE_MISMATCH           0x8001
-#define EXTENDED_CHANNEL_ERRORTYPE_LINE_DELAY_MISMATCH        0x8002
-
-#define APP_ALARM_USI                       0x0010
-#define APP_DIAG_CHANNEL_NUMBER             4
-#define APP_DIAG_CHANNEL_DIRECTION          PNET_DIAG_CH_PROP_DIR_INPUT
-#define APP_DIAG_CHANNEL_NUMBER_OF_BITS     PNET_DIAG_CH_PROP_TYPE_1_BIT
-#define APP_DIAG_CHANNEL_SEVERITY           PNET_DIAG_CH_PROP_MAINT_FAULT
-#define APP_DIAG_CHANNEL_ERRORTYPE          CHANNEL_ERRORTYPE_SHORT_CIRCUIT
-#define APP_DIAG_CHANNEL_ADDVALUE_A         0
-#define APP_DIAG_CHANNEL_ADDVALUE_B         1234
-#define APP_DIAG_CHANNEL_EXTENDED_ERRORTYPE 0
-#define APP_DIAG_CHANNEL_QUAL_SEVERITY      0 /* Not used (Max one bit set) */
-
-typedef enum app_demo_state {
-    APP_DEMO_STATE_ALARM_SEND = 0,
-    APP_DEMO_STATE_LOGBOOK_ENTRY,
-    APP_DEMO_STATE_ABORT_AR,
-    APP_DEMO_STATE_CYCLIC_REDUNDANT,
-    APP_DEMO_STATE_CYCLIC_NORMAL,
-    APP_DEMO_STATE_DIAG_STD_ADD,
-    APP_DEMO_STATE_DIAG_STD_UPDATE,
-    APP_DEMO_STATE_DIAG_STD_REMOVE,
-    APP_DEMO_STATE_DIAG_USI_ADD,
-    APP_DEMO_STATE_DIAG_USI_UPDATE,
-    APP_DEMO_STATE_DIAG_USI_REMOVE,
-} app_demo_state_t;
-
 typedef struct app_data_t {
     pnet_t * net;
 
@@ -82,10 +48,7 @@ typedef struct app_data_t {
     os_timer_t * main_timer;
     os_event_t * main_events;
 
-    bool alarm_allowed;
     pnet_alarm_argument_t alarm_arg;
-    app_demo_state_t alarm_demo_state;
-    uint8_t alarm_payload[APP_GSDML_ALARM_PAYLOAD_SIZE];
 
     /* Counters used to control when buttons are checked
      * and process data is updated */
@@ -126,7 +89,6 @@ app_data_t * app_init (const pnet_cfg_t * pnet_cfg, const app_args_t * app_args)
 
     app = &app_state;
 
-    app->alarm_allowed = true;
     for (i = 0; i < PNET_MAX_AR; ++i) {
         app->main_api.ar[i].arep = UINT32_MAX;
         app->main_api.ar[i].events = 0;
@@ -516,7 +478,6 @@ static int app_reset_ind (
 static int app_signal_led_ind (pnet_t * net, void * arg, bool led_state) {
     APP_LOG_INFO ("Profinet signal LED indication. New state: %u\n", led_state);
 
-    app_set_led (APP_PROFINET_SIGNAL_LED_ID, led_state);
     return 0;
 }
 
@@ -778,7 +739,6 @@ static int app_alarm_cnf (
     void * arg,
     uint32_t arep,
     const pnet_pnio_status_t * p_pnio_status) {
-    app_data_t * app = (app_data_t *)arg;
 
     APP_LOG_DEBUG (
         "PLC alarm confirmation. AREP: %u  Status code %u, "
@@ -788,8 +748,6 @@ static int app_alarm_cnf (
         p_pnio_status->error_decode,
         p_pnio_status->error_code_1,
         p_pnio_status->error_code_2);
-
-    app->alarm_allowed = true;
 
     return 0;
 }
@@ -1286,7 +1244,6 @@ void app_loop_forever (void * arg) {
 
     // setup_urica();
 
-    app_set_led (APP_DATA_LED_ID, false);
     app_plug_dap (app, app->pnet_cfg->num_physical_ports);
     APP_LOG_INFO ("Waiting for PLC connect request\n\n");
 
@@ -1313,7 +1270,6 @@ void app_loop_forever (void * arg) {
         }
         if (flags & APP_EVENT_ABORT) {
             app_handle_event_ar (app, APP_EVENT_ABORT, app_ar_abort_handler);
-            app->alarm_allowed = true;
         }
     }
 }

@@ -87,16 +87,6 @@ extern "C" {
 
 #define APP_GSDML_DIAG_CUSTOM_USI 0x1234
 
-/* See "Specification for GSDML" 8.26 LogBookEntryItem for allowed values */
-#define APP_GSDML_LOGBOOK_ERROR_CODE   0x20 /* Manufacturer specific */
-#define APP_GSDML_LOGBOOK_ERROR_DECODE 0x82 /* Manufacturer specific */
-#define APP_GSDML_LOGBOOK_ERROR_CODE_1 PNET_ERROR_CODE_1_FSPM
-#define APP_GSDML_LOGBOOK_ERROR_CODE_2 0x00       /* Manufacturer specific */
-#define APP_GSDML_LOGBOOK_ENTRY_DETAIL 0xFEE1DEAD /* Manufacturer specific */
-
-/* Use same size for all parameters in example */
-#define APP_GSDML_PARAMETER_LENGTH 4
-
 #define APP_GSDML_DEFAULT_MAUTYPE 0x10 /* Copper 100 Mbit/s Full duplex */
 
 typedef struct app_gsdml_module {
@@ -139,7 +129,6 @@ typedef struct {
 #define APP_GSDML_SUBMOD_ID_DIGITAL_OUT    0x00000133
 #define APP_GSDML_OUTPUT_DATA_DIGITAL_SIZE 1 /* bytes */
 #define APP_GSDML_INPUT_DATA_DIGITAL_SIZE  4 /* bytes */
-#define APP_GSDML_ALARM_PAYLOAD_SIZE       1 /* bytes */
 
 /**
  * Get module configuration from module ID
