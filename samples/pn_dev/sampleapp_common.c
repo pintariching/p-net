@@ -1345,7 +1345,7 @@ void app_loop_forever (void * arg)
                     APP_EVENT_ALARM | APP_EVENT_SM_RELEASED | APP_EVENT_ABORT;
     uint32_t flags = 0;
 
-    // setup_urica();
+    setup_urica();
 
     app_plug_dap (app, app->pnet_cfg->num_physical_ports);
     APP_LOG_INFO ("Waiting for PLC connect request\n\n");

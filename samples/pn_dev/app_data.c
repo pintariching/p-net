@@ -68,10 +68,11 @@ float * app_data_get_input_data (
         *size = APP_GSDML_INPUT_DATA_DIGITAL_SIZE;
         *iops = PNET_IOXS_GOOD;
 
-        // if (pthread_mutex_trylock (&urica_1_mutex) == 0) {
-        memcpy (&urica_1, &urica_1_buf, sizeof urica_1);
-        // pthread_mutex_unlock (&urica_1_mutex);
-        // }
+        if (pthread_mutex_trylock (&urica_1_mutex) == 0) {
+            memcpy (&urica_1_buf, &urica_1, 4);
+
+            pthread_mutex_unlock (&urica_1_mutex);
+        }
 
         return &urica_1_buf;
     }
@@ -134,18 +135,21 @@ void * urica_loop()
 
         pthread_mutex_lock (&urica_1_mutex);
         urica_1 = urica_1_meritev;
+
         pthread_mutex_unlock (&urica_1_mutex);
 
         // pthread_mutex_lock (&urica_2_mutex);
         // urica_2 = urica_2_meritev;
         // pthread_mutex_unlock (&urica_2_mutex);
 
-        os_usleep (500000);
+        os_usleep (100000);
     }
 }
 
 void setup_urica()
 {
+	printf("!!! SETTING UP URICA !!!\n\n\n");
+
     wiringPiSetup();
 
     pinMode (URICA_1_DATA_PIN, INPUT);
