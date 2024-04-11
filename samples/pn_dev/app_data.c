@@ -29,13 +29,13 @@ const int URICA_1_ID = 1;
 const int URICA_1_DATA_PIN = 0;
 const int URICA_1_CLOCK_PIN = 2;
 const int URICA_1_REQUEST_PIN = 3;
-const int URICA_1_SET_ZERO_PIN = 21;
+const int URICA_1_SET_ORIGIN_PIN =1;
 
 const int URICA_2_ID = 2;
 const int URICA_2_DATA_PIN = 5;
 const int URICA_2_CLOCK_PIN = 6;
 const int URICA_2_REQUEST_PIN = 7;
-const int URICA_2_SET_ZERO_PIN = 8;
+const int URICA_2_SET_ORIGIN_PIN = 8;
 
 /* Digital submodule process data
  * The stored value is shared between all digital submodules in this example. */
@@ -43,12 +43,13 @@ static float urica_1 = 0.;
 static float urica_2 = 0.;
 
 static pthread_mutex_t urica_1_mutex = PTHREAD_MUTEX_INITIALIZER;
-// static pthread_mutex_t urica_2_mutex = PTHREAD_MUTEX_INITIALIZER;
+static pthread_mutex_t urica_2_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 static float urica_1_buf = 0.;
 static float urica_2_buf = 0.;
 
-static u_int8_t input[8] = {0};
+static u_int8_t input = 0;
+static pthread_mutex_t input_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 float * app_data_get_input_data (
     uint16_t slot_nbr,
@@ -70,7 +71,6 @@ float * app_data_get_input_data (
 
         if (pthread_mutex_trylock (&urica_1_mutex) == 0) {
             memcpy (&urica_1_buf, &urica_1, 4);
-
             pthread_mutex_unlock (&urica_1_mutex);
         }
 
@@ -82,10 +82,10 @@ float * app_data_get_input_data (
         *size = APP_GSDML_INPUT_DATA_DIGITAL_SIZE;
         *iops = PNET_IOXS_GOOD;
 
-        // if (pthread_mutex_trylock (&urica_2_mutex) == 0) {
-        memcpy (&urica_2, &urica_2_buf, sizeof urica_2);
-        // pthread_mutex_unlock (&urica_2_mutex);
-        // }
+        if (pthread_mutex_trylock (&urica_2_mutex) == 0) {
+            memcpy (&urica_2, &urica_2_buf, sizeof urica_2);
+            pthread_mutex_unlock (&urica_2_mutex);
+        }
 
         return &urica_2_buf;
     }
@@ -111,7 +111,10 @@ int app_data_set_output_data (
     {
         if (size == APP_GSDML_OUTPUT_DATA_DIGITAL_SIZE)
         {
-            memcpy (input, data, size);
+            pthread_mutex_lock(&input_mutex);
+            memcpy (&input, data, size);
+            pthread_mutex_unlock(&input_mutex);
+
             return 0;
         }
     }
@@ -121,8 +124,7 @@ int app_data_set_output_data (
 
 int app_data_set_default_outputs (void)
 {
-    memset (input, 0, 8);
-
+    input = 0;
     return 0;
 }
 
@@ -130,32 +132,50 @@ void * urica_loop()
 {
     for (;;)
     {
-        float urica_1_meritev = meri_urico (URICA_1_ID);
-        // float urica_2_meritev = meri_urico (URICA_1_ID);
+        u_int8_t input_buf;
 
-        pthread_mutex_lock (&urica_1_mutex);
-        urica_1 = urica_1_meritev;
+        pthread_mutex_lock(&input_mutex);
+        input_buf = input;
+        pthread_mutex_unlock(&input_mutex);
 
-        pthread_mutex_unlock (&urica_1_mutex);
+        switch (input_buf)
+        {
+        case 1:
+            // meri urice
+            float urica_1_meritev = meri_urico(URICA_1_ID);
+            pthread_mutex_lock (&urica_1_mutex);
+            urica_1 = urica_1_meritev;
+            pthread_mutex_unlock (&urica_1_mutex);
 
-        // pthread_mutex_lock (&urica_2_mutex);
-        // urica_2 = urica_2_meritev;
-        // pthread_mutex_unlock (&urica_2_mutex);
+            // float urica_2_meritev = meri_urico(URICA_2_ID);
+            // pthread_mutex_lock(&urica_2_mutex);
+            // urica_2 = urica_2_meritev;
+            // pthread_mutex_unlock(&urica_2_mutex);
 
-        os_usleep (100000);
+            os_usleep (200000);
+            break;
+
+        case 2:
+            set_origin(URICA_1_ID);
+            break;
+        case 3:
+            set_origin(URICA_2_ID);
+            break;
+        default:
+            os_usleep(200000);
+            break;
+        }
     }
 }
 
 void setup_urica()
 {
-	printf("!!! SETTING UP URICA !!!\n\n\n");
-
     wiringPiSetup();
 
     pinMode (URICA_1_DATA_PIN, INPUT);
     pinMode (URICA_1_CLOCK_PIN, INPUT);
     pinMode (URICA_1_REQUEST_PIN, OUTPUT);
-    pinMode (URICA_1_SET_ZERO_PIN, OUTPUT);
+    pinMode (URICA_1_SET_ORIGIN_PIN, OUTPUT);
 
     pullUpDnControl (URICA_1_DATA_PIN, PUD_UP);
     pullUpDnControl (URICA_1_CLOCK_PIN, PUD_UP);
@@ -163,7 +183,7 @@ void setup_urica()
     pinMode (URICA_2_DATA_PIN, INPUT);
     pinMode (URICA_2_CLOCK_PIN, INPUT);
     pinMode (URICA_2_REQUEST_PIN, OUTPUT);
-    pinMode (URICA_2_SET_ZERO_PIN, OUTPUT);
+    pinMode (URICA_2_SET_ORIGIN_PIN, OUTPUT);
 
     pullUpDnControl (URICA_2_DATA_PIN, PUD_UP);
     pullUpDnControl (URICA_2_CLOCK_PIN, PUD_UP);
@@ -196,7 +216,7 @@ float meri_urico (int id)
     }
     else
     {
-        return 0.;
+        return -100.;
     }
 
     digitalWrite (request, HIGH);
@@ -253,6 +273,19 @@ float meri_urico (int id)
     return value;
 }
 
-void check_plc_output()
-{
+void set_origin(int id) {
+    int set_origin;
+
+    if (id == URICA_1_ID) {
+        set_origin = URICA_1_SET_ORIGIN_PIN;
+    } else if (id == URICA_2_ID) {
+        set_origin = URICA_2_SET_ORIGIN_PIN;
+    } else {
+        return;
+    }
+
+    digitalWrite(set_origin, HIGH);
+    os_usleep(2000000);
+    digitalWrite(set_origin, LOW);
 }
+

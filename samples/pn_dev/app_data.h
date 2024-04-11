@@ -135,7 +135,7 @@ int app_data_read_parameter (
 void update_urica_state();
 void setup_urica();
 float meri_urico (int id);
-void check_plc_output();
+void set_origin(int id);
 
 #ifdef __cplusplus
 }

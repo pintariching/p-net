@@ -9,13 +9,14 @@ After=network.target
 
 [Service]
 Type=simple
+User=root
 ExecStartPre=/sbin/ifconfig eth0 up
 ExecStartPre=/bin/sh -c '/bin/echo "49152 60999" > /proc/sys/net/ipv4/ip_local_port_range'
-ExecStartPre=/usr/bin/enable-rpi-gpio-pins.sh
+# ExecStartPre=/usr/bin/enable-rpi-gpio-pins.sh
 # Enable this line if waiting for snmpd to start
-#ExecStartPre=/usr/bin/sleep 1.0
-WorkingDirectory=/home/pi/profinet/build/
-ExecStart=/home/pi/profinet/build/pn_dev -v -b /sys/class/gpio/gpio27/value -d /sys/class/gpio/gpio22/value
+# ExecStartPre=/usr/bin/sleep 1.0
+WorkingDirectory=/home/tilen/p-net/build/
+ExecStart=/home/tilen/p-net/build/pn_dev -i eth0
 # Use this instead for dual ports:
 #ExecStart=/home/pi/profinet/build/pn_dev -v -i br0,eth0,eth1 -b /sys/class/gpio/gpio27/value -d /sys/class/gpio/gpio22/value
 Restart=always
